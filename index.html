@@ -15,38 +15,18 @@
             font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
         }
-        .accordion-header {
-            cursor: pointer;
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        section {
             background-color: #fff;
             border-radius: 8px;
-            margin-top: 1rem;
+            margin-top: 2rem;
+            padding: 1.5rem 2rem;
             box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
         }
-        .accordion-header h2 {
-             margin: 0;
-             font-size: 1.25rem;
-        }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
-            background-color: #fff;
-            border-radius: 0 0 8px 8px;
-            padding: 0 1.5rem;
-        }
-        .accordion-content.open {
-             padding: 1.5rem;
-        }
-        .accordion-icon {
-            transition: transform 0.3s ease;
-        }
-        .accordion-header.active .accordion-icon {
-            transform: rotate(90deg);
+        h2 {
+             margin: 0 0 1rem 0;
+             padding-bottom: 0.5rem;
+             border-bottom: 2px solid #e5e7eb;
+             font-size: 1.5rem;
         }
         .prose h3 {
             margin-top: 1.5em;
@@ -56,6 +36,14 @@
         }
         .prose p, .prose ul, .prose li, .prose ol {
             line-height: 1.75;
+        }
+        .key-formulas {
+            background-color: #f0fdf4; /* Light green background */
+            border: 1px solid #bbf7d0; /* Green border */
+            border-left: 4px solid #22c55e; /* Darker green left border */
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
         }
         .example, .video-container, .interactive-widget {
             background-color: #f9fafb;
@@ -84,7 +72,7 @@
                 <p class="text-sm text-gray-600">Physics I: Classical Mechanics</p>
             </div>
             <nav class="mt-4 px-4">
-                <ul>
+                 <ul>
                     <li class="mb-2"><a href="#unit1" class="nav-link font-semibold text-blue-600 block p-2 rounded hover:bg-gray-200">1. Units & Vectors</a></li>
                     <li class="mb-2"><a href="#unit2" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">2. 1D Kinematics</a></li>
                     <li class="mb-2"><a href="#unit3" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">3. 2D Kinematics</a></li>
@@ -116,312 +104,430 @@
                 
                 <!-- Unit 1 -->
                 <section id="unit1">
-                    <div class="accordion-header">
-                        <h2>Unit 1: Units, Measurement, and Vectors</h2>
-                        <svg class="accordion-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <h2>Unit 1: Units, Measurement, and Vectors</h2>
+                    <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                        <ul>
+                            <li>$|\mathbf{R}| = \sqrt{R_x^2 + R_y^2}$
+                                <ul class="list-none pl-4"><li>- Magnitude of a resultant vector $\mathbf{R}$ from perpendicular components $R_x$ and $R_y$.</li></ul>
+                            </li>
+                            <li>$\theta = \arctan\left(\frac{R_y}{R_x}\right)$
+                                <ul class="list-none pl-4"><li>- Direction $\theta$ of a resultant vector relative to the x-axis.</li></ul>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="accordion-content">
-                        <h3>Overview</h3>
-                        <p>This introductory unit covers the foundation of scientific measurement and vector quantities. We begin with the SI units of length (meter), mass (kilogram), and time (second). We also discuss measurement uncertainty and significant figures. The second part introduces vectors and scalars. Scalars have magnitude only (e.g. distance or speed), whereas vectors have both magnitude and direction. We learn how to represent vectors graphically (with arrows) and numerically (via components), and how to add and subtract them.</p>
-                        <div class="video-container">
-                            <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 1</p>
-                            <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/GtOGurrUPmQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <div class="example">
-                            <p class="example-title">Example 1: Unit Conversion</p>
-                            <p>A car is traveling at 60.0 miles per hour (mi/h). Convert this speed to meters per second (m/s).</p>
-                            <p><strong>Solution:</strong> Use conversion factors: 1 mile = 1609 m, and 1 hour = 3600 s. Set up the conversion so units cancel appropriately:</p>
-                            $$ 60.0~\frac{\text{mi}}{\text{h}} \times \frac{1609~\text{m}}{1~\text{mi}} \times \frac{1~\text{h}}{3600~\text{s}} = \frac{60.0 \times 1609}{3600}~\frac{\text{m}}{\text{s}} \approx 26.8~\text{m/s} $$
-                            <p><strong>Answer:</strong> 60.0 mi/h is approximately 26.8 m/s.</p>
-                        </div>
-                        <div class="example">
-                            <p class="example-title">Example 2: Vector Addition</p>
-                            <p>Suppose you walk 3.0 km due East, then 4.0 km due North. Find the magnitude and direction of the resultant displacement $\mathbf{R}$.</p>
-                            <p><strong>Solution:</strong> The two displacements are perpendicular vectors. Use the Pythagorean theorem for the magnitude:</p>
-                            $$ |\mathbf{R}| = \sqrt{(3.0~\text{km})^2 + (4.0~\text{km})^2} = 5.0~\text{km} $$
-                            <p>Find the direction using the tangent function:</p>
-                            $$ \tan\theta = \frac{4.0~\text{km}}{3.0~\text{km}} \implies \theta = \arctan\left(\frac{4.0}{3.0}\right) \approx 53^\circ $$
-                            <p><strong>Answer:</strong> The resultant displacement is 5.0 km at 53° North of East.</p>
-                        </div>
+                    <h3>Overview</h3>
+                    <p>This introductory unit covers the foundation of scientific measurement and vector quantities. We begin with the SI units of length (meter), mass (kilogram), and time (second). We also discuss measurement uncertainty and significant figures. The second part introduces vectors and scalars. Scalars have magnitude only (e.g. distance or speed), whereas vectors have both magnitude and direction. We learn how to represent vectors graphically (with arrows) and numerically (via components), and how to add and subtract them.</p>
+                    <div class="video-container">
+                        <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 1</p>
+                        <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/GtOGurrUPmQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="example">
+                        <p class="example-title">Example 1: Unit Conversion</p>
+                        <p>A car is traveling at 60.0 miles per hour (mi/h). Convert this speed to meters per second (m/s).</p>
+                        <p><strong>Solution:</strong> Use conversion factors: 1 mile = 1609 m, and 1 hour = 3600 s. Set up the conversion so units cancel appropriately:</p>
+                        $$ 60.0~\frac{\text{mi}}{\text{h}} \times \frac{1609~\text{m}}{1~\text{mi}} \times \frac{1~\text{h}}{3600~\text{s}} = \frac{60.0 \times 1609}{3600}~\frac{\text{m}}{\text{s}} \approx 26.8~\text{m/s} $$
+                        <p><strong>Answer:</strong> 60.0 mi/h is approximately 26.8 m/s.</p>
+                    </div>
+                    <div class="example">
+                        <p class="example-title">Example 2: Vector Addition</p>
+                        <p>Suppose you walk 3.0 km due East, then 4.0 km due North. Find the magnitude and direction of the resultant displacement $\mathbf{R}$.</p>
+                        <p><strong>Solution:</strong> The two displacements are perpendicular vectors. Use the Pythagorean theorem for the magnitude:</p>
+                        $$ |\mathbf{R}| = \sqrt{(3.0~\text{km})^2 + (4.0~\text{km})^2} = 5.0~\text{km} $$
+                        <p>Find the direction using the tangent function:</p>
+                        $$ \tan\theta = \frac{4.0~\text{km}}{3.0~\text{km}} \implies \theta = \arctan\left(\frac{4.0}{3.0}\right) \approx 53^\circ $$
+                        <p><strong>Answer:</strong> The resultant displacement is 5.0 km at 53° North of East.</p>
                     </div>
                 </section>
                 
                 <!-- Unit 2 -->
                 <section id="unit2">
-                    <div class="accordion-header">
-                        <h2>Unit 2: One-Dimensional Kinematics</h2>
-                        <svg class="accordion-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <h2>Unit 2: One-Dimensional Kinematics</h2>
+                    <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas (for constant acceleration)</h4>
+                         <ul>
+                            <li>$v = v_0 + at$
+                                <ul class="list-none pl-4">
+                                    <li>- $v$: final velocity</li>
+                                    <li>- $v_0$: initial velocity</li>
+                                    <li>- $a$: acceleration</li>
+                                    <li>- $t$: time interval</li>
+                                </ul>
+                            </li>
+                            <li>$x = x_0 + v_0 t + \frac{1}{2} a t^2$
+                                 <ul class="list-none pl-4">
+                                    <li>- $x$: final position</li>
+                                    <li>- $x_0$: initial position</li>
+                                </ul>
+                            </li>
+                             <li>$v^2 = v_0^2 + 2a(x - x_0)$
+                                <ul class="list-none pl-4">
+                                    <li>- Relates variables without time.</li>
+                                </ul>
+                             </li>
+                        </ul>
                     </div>
-                    <div class="accordion-content">
-                         <h3>Overview</h3>
-                        <p>Kinematics is the study of motion without regard to the forces that cause it. In one dimension (1D), we describe motion along a straight line. Key concepts are displacement ($\Delta x$), velocity ($v$), and acceleration ($a$). Accelerated motion with constant acceleration is described by a set of key equations. Free-fall under gravity is a common 1D case where acceleration $a = -g \approx -9.8~\text{m/s}^2$.</p>
-                        $$ v = v_0 + at \quad | \quad x = x_0 + v_0 t + \frac{1}{2} a t^2 \quad | \quad v^2 = v_0^2 + 2a(x - x_0) $$
-                        <div class="video-container">
-                            <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 2</p>
-                             <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/q9IWoQ199_o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <div class="interactive-widget">
-                            <p class="widget-title">Interactive 1D Kinematics Simulator</p>
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <label for="initialVelocity" class="block text-sm font-medium text-gray-700">Initial Velocity ($v_i$): <span id="ivVal">10</span> m/s</label>
-                                    <input type="range" id="initialVelocity" min="-20" max="20" value="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                                    
-                                    <label for="acceleration" class="block text-sm font-medium text-gray-700 mt-4">Acceleration ($a$): <span id="accelVal">0</span> m/s²</label>
-                                    <input type="range" id="acceleration" min="-5" max="5" value="0" step="0.1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                                    
-                                    <button id="startKinematics" class="mt-6 w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Run Simulation</button>
-                                </div>
-                                <div class="bg-white p-4 rounded-lg border">
-                                   <p><strong>Time:</strong> <span id="kin-time">0.00</span> s</p>
-                                   <p><strong>Position:</strong> <span id="kin-pos">0.00</span> m</p>
-                                   <p><strong>Velocity:</strong> <span id="kin-vel">0.00</span> m/s</p>
-                                   <canvas id="kinematicsCanvas" class="mt-2 border rounded-md" width="300" height="100"></canvas>
-                                </div>
+                     <h3>Overview</h3>
+                    <p>Kinematics is the study of motion without regard to the forces that cause it. In one dimension (1D), we describe motion along a straight line. Key concepts are displacement ($\Delta x$), velocity ($v$), and acceleration ($a$). Accelerated motion with constant acceleration is described by a set of key equations. Free-fall under gravity is a common 1D case where acceleration $a = -g \approx -9.8~\text{m/s}^2$.</p>
+                    <div class="video-container">
+                        <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 2</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/q9IWoQ199_o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="interactive-widget">
+                        <p class="widget-title">Interactive 1D Kinematics Simulator</p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="initialVelocity" class="block text-sm font-medium text-gray-700">Initial Velocity ($v_i$): <span id="ivVal">10</span> m/s</label>
+                                <input type="range" id="initialVelocity" min="-20" max="20" value="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                
+                                <label for="acceleration" class="block text-sm font-medium text-gray-700 mt-4">Acceleration ($a$): <span id="accelVal">0</span> m/s²</label>
+                                <input type="range" id="acceleration" min="-5" max="5" value="0" step="0.1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                                
+                                <button id="startKinematics" class="mt-6 w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Run Simulation</button>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border">
+                               <p><strong>Time:</strong> <span id="kin-time">0.00</span> s</p>
+                               <p><strong>Position:</strong> <span id="kin-pos">0.00</span> m</p>
+                               <p><strong>Velocity:</strong> <span id="kin-vel">0.00</span> m/s</p>
+                               <canvas id="kinematicsCanvas" class="mt-2 border rounded-md" width="300" height="100"></canvas>
                             </div>
                         </div>
-                        <div class="example">
-                            <p class="example-title">Example 1: Uniform Acceleration</p>
-                             <p>A car initially at rest accelerates uniformly at $3.0~\text{m/s}^2$. (a) How fast will it be moving after 5.0 s? (b) How far will it have traveled?</p>
-                             <p><strong>Solution (a):</strong> Use $v = v_0 + at$. With $v_0=0$: $v = (3.0~\text{m/s}^2)(5.0~\text{s}) = 15.0~\text{m/s}$.</p>
-                             <p><strong>Solution (b):</strong> Use $x = v_0t + \frac{1}{2}at^2$. With $v_0=0$: $x = \frac{1}{2}(3.0~\text{m/s}^2)(5.0~\text{s})^2 = 37.5~\text{m}$.</p>
-                             <p><strong>Answer:</strong> (a) 15.0 m/s, (b) 37.5 m.</p>
-                        </div>
-                        <div class="example">
-                             <p class="example-title">Example 2: Free Fall</p>
-                             <p>A ball is thrown straight up with an initial speed of 20 m/s. (a) How high does it rise? (b) How long does it take to return to the release level?</p>
-                             <p><strong>Solution (a):</strong> At the highest point, $v=0$. Use $v^2 = v_0^2 + 2a\Delta y$. Let $a=-9.8~\text{m/s}^2$.</p>
-                             $$ 0 = (20)^2 + 2(-9.8)\Delta y \implies \Delta y = \frac{-400}{-19.6} \approx 20.4~\text{m} $$
-                             <p><strong>Solution (b):</strong> When the ball returns, displacement $\Delta y = 0$. Use $y = v_0 t + \frac{1}{2}a t^2$.</p>
-                             $$ 0 = 20t - 4.9t^2 = t(20 - 4.9t) \implies t = \frac{20}{4.9} \approx 4.1~\text{s} $$
-                             <p><strong>Answer:</strong> Max height ≈ 20.4 m, total time ≈ 4.1 s.</p>
-                        </div>
+                    </div>
+                    <div class="example">
+                        <p class="example-title">Example 1: Uniform Acceleration</p>
+                         <p>A car initially at rest accelerates uniformly at $3.0~\text{m/s}^2$. (a) How fast will it be moving after 5.0 s? (b) How far will it have traveled?</p>
+                         <p><strong>Solution (a):</strong> Use $v = v_0 + at$. With $v_0=0$: $v = (3.0~\text{m/s}^2)(5.0~\text{s}) = 15.0~\text{m/s}$.</p>
+                         <p><strong>Solution (b):</strong> Use $x = v_0t + \frac{1}{2}at^2$. With $v_0=0$: $x = \frac{1}{2}(3.0~\text{m/s}^2)(5.0~\text{s})^2 = 37.5~\text{m}$.</p>
+                         <p><strong>Answer:</strong> (a) 15.0 m/s, (b) 37.5 m.</p>
+                    </div>
+                    <div class="example">
+                         <p class="example-title">Example 2: Free Fall</p>
+                         <p>A ball is thrown straight up with an initial speed of 20 m/s. (a) How high does it rise? (b) How long does it take to return to the release level?</p>
+                         <p><strong>Solution (a):</strong> At the highest point, $v=0$. Use $v^2 = v_0^2 + 2a\Delta y$. Let $a=-9.8~\text{m/s}^2$.</p>
+                         $$ 0 = (20)^2 + 2(-9.8)\Delta y \implies \Delta y = \frac{-400}{-19.6} \approx 20.4~\text{m} $$
+                         <p><strong>Solution (b):</strong> When the ball returns, displacement $\Delta y = 0$. Use $y = v_0 t + \frac{1}{2}a t^2$.</p>
+                         $$ 0 = 20t - 4.9t^2 = t(20 - 4.9t) \implies t = \frac{20}{4.9} \approx 4.1~\text{s} $$
+                         <p><strong>Answer:</strong> Max height ≈ 20.4 m, total time ≈ 4.1 s.</p>
                     </div>
                 </section>
 
                 <!-- Unit 3 -->
                 <section id="unit3">
-                    <div class="accordion-header">
-                        <h2>Unit 3: Two-Dimensional Motion (Projectile Motion)</h2>
-                        <svg class="accordion-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <h2>Unit 3: Two-Dimensional Motion (Projectile Motion)</h2>
+                     <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                            <li>$v_{ix} = v_i \cos\theta \quad | \quad v_{iy} = v_i \sin\theta$
+                                <ul class="list-none pl-4">
+                                    <li>- $v_i$: initial launch speed</li>
+                                    <li>- $\theta$: launch angle</li>
+                                    <li>- $v_{ix}, v_{iy}$: initial x and y components of velocity</li>
+                                </ul>
+                            </li>
+                             <li>$x(t) = v_{ix}t$
+                                <ul class="list-none pl-4"><li>- Horizontal position at time $t$.</li></ul>
+                             </li>
+                             <li>$y(t) = v_{iy}t - \frac{1}{2}gt^2$
+                                <ul class="list-none pl-4">
+                                    <li>- Vertical position at time $t$.</li>
+                                    <li>- $g$: acceleration due to gravity (~9.8 m/s²)</li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="accordion-content">
-                         <h3>Overview</h3>
-                         <p>This unit extends kinematics to two dimensions (2D). A key example is projectile motion. The critical concept is that horizontal and vertical motions are independent. The horizontal motion has constant velocity ($a_x=0$), while the vertical motion has constant downward acceleration ($a_y=-g$). The combination produces a parabolic trajectory.</p>
-                        <div class="video-container">
-                            <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 4</p>
-                             <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/k6aJyOHTDYM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <div class="interactive-widget">
-                             <p class="widget-title">Interactive Projectile Simulator</p>
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-medium">Initial Speed: <span id="speedVal">25</span> m/s</label>
-                                    <input type="range" id="projSpeed" min="5" max="50" value="25" class="w-full">
-                                    <label class="block text-sm font-medium mt-4">Launch Angle: <span id="angleValP">45</span>°</label>
-                                    <input type="range" id="projAngle" min="0" max="90" value="45" class="w-full">
-                                    <button id="launchProjectile" class="mt-6 w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Launch</button>
-                                </div>
-                                <div class="bg-white p-2 rounded-lg border">
-                                   <canvas id="projectileCanvas" width="400" height="250"></canvas>
-                                </div>
+                     <h3>Overview</h3>
+                     <p>This unit extends kinematics to two dimensions (2D). A key example is projectile motion. The critical concept is that horizontal and vertical motions are independent. The horizontal motion has constant velocity ($a_x=0$), while the vertical motion has constant downward acceleration ($a_y=-g$). The combination produces a parabolic trajectory.</p>
+                    <div class="video-container">
+                        <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 4</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/k6aJyOHTDYM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="interactive-widget">
+                         <p class="widget-title">Interactive Projectile Simulator</p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium">Initial Speed: <span id="speedVal">25</span> m/s</label>
+                                <input type="range" id="projSpeed" min="5" max="50" value="25" class="w-full">
+                                <label class="block text-sm font-medium mt-4">Launch Angle: <span id="angleValP">45</span>°</label>
+                                <input type="range" id="projAngle" min="0" max="90" value="45" class="w-full">
+                                <button id="launchProjectile" class="mt-6 w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Launch</button>
+                            </div>
+                            <div class="bg-white p-2 rounded-lg border">
+                               <canvas id="projectileCanvas" width="400" height="250"></canvas>
                             </div>
                         </div>
-                        <div class="example">
-                             <p class="example-title">Example 1: Projectile Launched at an Angle</p>
-                             <p>A soccer ball is kicked from ground level at 25 m/s at a 30° angle. (a) How long is it in the air? (b) What is its range?</p>
-                             <p><strong>Solution:</strong> Initial velocity components: $v_{0x} = 25\cos30^\circ \approx 21.7~\text{m/s}$ and $v_{0y} = 25\sin30^\circ = 12.5~\text{m/s}$.</p>
-                             <p><strong>(a) Time of flight:</strong> Solve for time when vertical displacement is zero: $0 = v_{0y}t - \frac{1}{2}gt^2$.</p>
-                             $$ t = \frac{2v_{0y}}{g} = \frac{2(12.5)}{9.8} \approx 2.55~\text{s} $$
-                             <p><strong>(b) Range:</strong> Horizontal distance $x = v_{0x} \times t = 21.7~\text{m/s} \times 2.55~\text{s} \approx 55.3~\text{m}$.</p>
-                             <p><strong>Answer:</strong> Time ≈ 2.55 s, Range ≈ 55.3 m.</p>
-                        </div>
+                    </div>
+                    <div class="example">
+                         <p class="example-title">Example 1: Projectile Launched at an Angle</p>
+                         <p>A soccer ball is kicked from ground level at 25 m/s at a 30° angle. (a) How long is it in the air? (b) What is its range?</p>
+                         <p><strong>Solution:</strong> Initial velocity components: $v_{0x} = 25\cos30^\circ \approx 21.7~\text{m/s}$ and $v_{0y} = 25\sin30^\circ = 12.5~\text{m/s}$.</p>
+                         <p><strong>(a) Time of flight:</strong> Solve for time when vertical displacement is zero: $0 = v_{0y}t - \frac{1}{2}gt^2$.</p>
+                         $$ t = \frac{2v_{0y}}{g} = \frac{2(12.5)}{9.8} \approx 2.55~\text{s} $$
+                         <p><strong>(b) Range:</strong> Horizontal distance $x = v_{0x} \times t = 21.7~\text{m/s} \times 2.55~\text{s} \approx 55.3~\text{m}$.</p>
+                         <p><strong>Answer:</strong> Time ≈ 2.55 s, Range ≈ 55.3 m.</p>
                     </div>
                 </section>
                 
                 <!-- Unit 4 -->
                 <section id="unit4">
-                    <div class="accordion-header">
-                        <h2>Unit 4: Newton’s Laws of Motion</h2>
-                        <svg class="accordion-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <h2>Unit 4: Newton’s Laws of Motion</h2>
+                    <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                             <li>$\sum \mathbf{F} = m \mathbf{a}$
+                                <ul class="list-none pl-4">
+                                    <li>- $\sum \mathbf{F}$: The net (vector sum) force on an object.</li>
+                                    <li>- $m$: mass of the object.</li>
+                                    <li>- $\mathbf{a}$: acceleration of the object.</li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="accordion-content">
-                        <h3>Overview</h3>
-                        <p>This unit introduces Newton’s three laws, which form the basis for dynamics. The first law defines inertia. The second law quantifies the relationship between force, mass, and acceleration as $\sum \mathbf{F} = m \mathbf{a}$. The third law states that forces come in equal and opposite action-reaction pairs. We use free-body diagrams to identify all forces (weight, normal force, tension, friction) on an object.</p>
-                        <div class="video-container">
-                             <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 6</p>
-                             <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/oduZsA0Tk58" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <div class="example">
-                             <p class="example-title">Example: Net Force and Acceleration</p>
-                             <p>A 5.0 kg box is subjected to two forces: $F_1 = 20$ N East, and $F_2 = 15$ N North. Find the box’s acceleration.</p>
-                             <p><strong>Solution:</strong> Find the net force using vector addition. The magnitude is:</p>
-                             $$ F_{\text{net}} = \sqrt{(20~\text{N})^2 + (15~\text{N})^2} = 25~\text{N} $$
-                             <p>Apply Newton's Second Law to find acceleration:</p>
-                             $$ a = \frac{F_{\text{net}}}{m} = \frac{25~\text{N}}{5.0~\text{kg}} = 5.0~\text{m/s}^2 $$
-                             <p>The direction is $\theta = \arctan(15/20) \approx 36.9^\circ$ North of East.</p>
-                             <p><strong>Answer:</strong> a = 5.0 m/s² at 36.9° North of East.</p>
-                        </div>
+                    <h3>Overview</h3>
+                    <p>This unit introduces Newton’s three laws, which form the basis for dynamics. The first law defines inertia. The second law quantifies the relationship between force, mass, and acceleration as $\sum \mathbf{F} = m \mathbf{a}$. The third law states that forces come in equal and opposite action-reaction pairs. We use free-body diagrams to identify all forces (weight, normal force, tension, friction) on an object.</p>
+                    <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 6</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/oduZsA0Tk58" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="example">
+                         <p class="example-title">Example: Net Force and Acceleration</p>
+                         <p>A 5.0 kg box is subjected to two forces: $F_1 = 20$ N East, and $F_2 = 15$ N North. Find the box’s acceleration.</p>
+                         <p><strong>Solution:</strong> Find the net force using vector addition. The magnitude is:</p>
+                         $$ F_{\text{net}} = \sqrt{(20~\text{N})^2 + (15~\text{N})^2} = 25~\text{N} $$
+                         <p>Apply Newton's Second Law to find acceleration:</p>
+                         $$ a = \frac{F_{\text{net}}}{m} = \frac{25~\text{N}}{5.0~\text{kg}} = 5.0~\text{m/s}^2 $$
+                         <p>The direction is $\theta = \arctan(15/20) \approx 36.9^\circ$ North of East.</p>
+                         <p><strong>Answer:</strong> a = 5.0 m/s² at 36.9° North of East.</p>
                     </div>
                 </section>
 
                 <!-- Unit 5 -->
                 <section id="unit5">
-                    <div class="accordion-header">
-                        <h2>Unit 5: Applications of Newton’s Laws</h2>
-                        <svg class="accordion-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <h2>Unit 5: Applications of Newton’s Laws</h2>
+                     <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                             <li>$f_s \le \mu_s N$
+                                <ul class="list-none pl-4">
+                                    <li>- $f_s$: force of static friction</li>
+                                    <li>- $\mu_s$: coefficient of static friction</li>
+                                    <li>- $N$: normal force</li>
+                                </ul>
+                             </li>
+                             <li>$f_k = \mu_k N$
+                                <ul class="list-none pl-4">
+                                    <li>- $f_k$: force of kinetic friction</li>
+                                    <li>- $\mu_k$: coefficient of kinetic friction</li>
+                                </ul>
+                             </li>
+                            <li>$F_c = \frac{mv^2}{r}$
+                                <ul class="list-none pl-4">
+                                    <li>- $F_c$: centripetal force</li>
+                                    <li>- $v$: tangential speed</li>
+                                    <li>- $r$: radius of circular path</li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="accordion-content">
-                        <h3>Overview</h3>
-                        <p>We apply Newton’s laws to more complex situations involving friction, tension, and inclined planes. Friction opposes motion, with static friction ($f_s$) preventing motion and kinetic friction ($f_k$) opposing it. Tension is a pulling force through a rope. For objects on an incline, we resolve weight into components parallel and perpendicular to the slope.</p>
-                         <div class="video-container">
-                             <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 8</p>
-                             <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/FWh-enOdXM4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                         <div class="interactive-widget">
-                            <p class="widget-title">Interactive: Block on an Incline</p>
-                            <div class="grid md:grid-cols-2 gap-6 items-center">
-                                <div>
-                                    <label class="block text-sm font-medium">Mass: <span id="massVal">10</span> kg</label>
-                                    <input type="range" id="blockMass" min="1" max="50" value="10" class="w-full">
-                                    <label class="block text-sm font-medium mt-4">Incline Angle: <span id="angleVal">30</span>°</label>
-                                    <input type="range" id="inclineAngle" min="0" max="60" value="30" class="w-full">
-                                    <label class="block text-sm font-medium mt-4">Kinetic Friction ($\mu_k$): <span id="muKVal">0.2</span></label>
-                                    <input type="range" id="muKinetic" min="0" max="1" step="0.05" value="0.2" class="w-full">
-                                </div>
-                                <div class="bg-white p-2 rounded-lg border">
-                                   <canvas id="inclineCanvas" width="300" height="250"></canvas>
-                                   <div id="force-readout" class="text-sm p-2"></div>
-                                </div>
+                    <h3>Overview</h3>
+                    <p>We apply Newton’s laws to more complex situations involving friction, tension, and inclined planes. Friction opposes motion, with static friction ($f_s$) preventing motion and kinetic friction ($f_k$) opposing it. Tension is a pulling force through a rope. For objects on an incline, we resolve weight into components parallel and perpendicular to the slope.</p>
+                     <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 8</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/FWh-enOdXM4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <div class="interactive-widget">
+                        <p class="widget-title">Interactive: Block on an Incline</p>
+                        <div class="grid md:grid-cols-2 gap-6 items-center">
+                            <div>
+                                <label class="block text-sm font-medium">Mass: <span id="massVal">10</span> kg</label>
+                                <input type="range" id="blockMass" min="1" max="50" value="10" class="w-full">
+                                <label class="block text-sm font-medium mt-4">Incline Angle: <span id="angleValI">30</span>°</label>
+                                <input type="range" id="inclineAngle" min="0" max="60" value="30" class="w-full">
+                                <label class="block text-sm font-medium mt-4">Kinetic Friction ($\mu_k$): <span id="muKVal">0.2</span></label>
+                                <input type="range" id="muKinetic" min="0" max="1" step="0.05" value="0.2" class="w-full">
+                            </div>
+                            <div class="bg-white p-2 rounded-lg border">
+                               <canvas id="inclineCanvas" width="300" height="250"></canvas>
+                               <div id="force-readout" class="text-sm p-2"></div>
                             </div>
                         </div>
-                        <div class="example">
-                             <p class="example-title">Example: Atwood’s Machine</p>
-                             <p>Two masses, $m_1 = 4.0$ kg and $m_2 = 6.0$ kg, are connected by a light rope over a frictionless pulley. Find their acceleration.</p>
-                             <p><strong>Solution:</strong> The net force on the system is the difference in weights: $F_{net} = (m_2 - m_1)g$. This net force accelerates the total mass $M = m_1 + m_2$.</p>
-                             $$ a = \frac{F_{net}}{M} = \frac{(m_2 - m_1)g}{m_1 + m_2} = \frac{(6.0 - 4.0)(9.8)}{6.0 + 4.0} = \frac{19.6}{10} = 1.96~\text{m/s}^2 $$
-                             <p><strong>Answer:</strong> The acceleration is 1.96 m/s².</p>
-                        </div>
+                    </div>
+                    <div class="example">
+                         <p class="example-title">Example: Atwood’s Machine</p>
+                         <p>Two masses, $m_1 = 4.0$ kg and $m_2 = 6.0$ kg, are connected by a light rope over a frictionless pulley. Find their acceleration.</p>
+                         <p><strong>Solution:</strong> The net force on the system is the difference in weights: $F_{net} = (m_2 - m_1)g$. This net force accelerates the total mass $M = m_1 + m_2$.</p>
+                         $$ a = \frac{F_{net}}{M} = \frac{(m_2 - m_1)g}{m_1 + m_2} = \frac{(6.0 - 4.0)(9.8)}{6.0 + 4.0} = \frac{19.6}{10} = 1.96~\text{m/s}^2 $$
+                         <p><strong>Answer:</strong> The acceleration is 1.96 m/s².</p>
                     </div>
                 </section>
 
                 <!-- Unit 6 -->
                 <section id="unit6">
-                    <div class="accordion-header">
-                        <h2>Unit 6: Work and Energy</h2>
-                        <svg class="accordion-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <h2>Unit 6: Work and Energy</h2>
+                     <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                             <li>$W = Fd\cos\theta$
+                                 <ul class="list-none pl-4">
+                                     <li>- $W$: work done by a constant force</li>
+                                     <li>- $F$: magnitude of the force</li>
+                                     <li>- $d$: magnitude of the displacement</li>
+                                     <li>- $\theta$: angle between force and displacement</li>
+                                 </ul>
+                             </li>
+                             <li>$KE = \frac{1}{2}mv^2$
+                                 <ul class="list-none pl-4">
+                                     <li>- $KE$: kinetic energy</li>
+                                     <li>- $m$: mass, $v$: speed</li>
+                                 </ul>
+                             </li>
+                            <li>$W_{\text{net}} = \Delta KE$
+                                <ul class="list-none pl-4">
+                                     <li>- Work-Energy Theorem: Net work equals change in kinetic energy.</li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="accordion-content">
-                        <h3>Overview</h3>
-                        <p>This unit introduces the concepts of work, kinetic energy, and the work-energy principle. In physics, work $W$ is defined as the energy transferred by a force acting over a displacement. For a constant force $F$ acting on an object that undergoes displacement $d$, the work done by that force is $W = Fd\cos\theta$. Kinetic Energy (KE) is the energy of motion: $KE = \frac{1}{2}mv^2$. The Work-Energy Theorem states that the net work done on an object equals the change in its kinetic energy, $W_{\text{net}} = \Delta KE$.</p>
-                         <div class="video-container">
-                             <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 11 (Start)</p>
-                             <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/9gUdDM6LZGo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <div class="example">
-                            <p class="example-title">Example: Work Done by a Force at an Angle</p>
-                            <p>A person pulls a sled along level ground by applying a 100 N force via a rope that makes a 30° angle above the horizontal. The sled moves 10 m forward. How much work is done?</p>
-                            <p><strong>Solution:</strong> Use the formula $W = Fd\cos\theta$.</p>
-                            $$ W = (100~\text{N})(10~\text{m})\cos(30^\circ) \approx 866~\text{J} $$
-                            <p><strong>Answer:</strong> 866 J of work is done by the person on the sled.</p>
-                        </div>
+                    <h3>Overview</h3>
+                    <p>This unit introduces the concepts of work, kinetic energy, and the work-energy principle. In physics, work $W$ is defined as the energy transferred by a force acting over a displacement. For a constant force $F$ acting on an object that undergoes displacement $d$, the work done by that force is $W = Fd\cos\theta$. Kinetic Energy (KE) is the energy of motion: $KE = \frac{1}{2}mv^2$. The Work-Energy Theorem states that the net work done on an object equals the change in its kinetic energy, $W_{\text{net}} = \Delta KE$.</p>
+                     <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 11 (Start)</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/9gUdDM6LZGo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="example">
+                        <p class="example-title">Example: Work Done by a Force at an Angle</p>
+                        <p>A person pulls a sled along level ground by applying a 100 N force via a rope that makes a 30° angle above the horizontal. The sled moves 10 m forward. How much work is done?</p>
+                        <p><strong>Solution:</strong> Use the formula $W = Fd\cos\theta$.</p>
+                        $$ W = (100~\text{N})(10~\text{m})\cos(30^\circ) \approx 866~\text{J} $$
+                        <p><strong>Answer:</strong> 866 J of work is done by the person on the sled.</p>
                     </div>
                 </section>
 
                 <!-- Unit 7 -->
                 <section id="unit7">
-                    <div class="accordion-header">
-                        <h2>Unit 7: Conservation of Energy</h2>
-                        <svg class="accordion-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <h2>Unit 7: Conservation of Energy</h2>
+                     <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                            <li>$U_g = mgh$
+                                <ul class="list-none pl-4">
+                                    <li>- $U_g$: gravitational potential energy</li>
+                                    <li>- $h$: height above a reference level</li>
+                                </ul>
+                            </li>
+                             <li>$U_s = \frac{1}{2}kx^2$
+                                 <ul class="list-none pl-4">
+                                     <li>- $U_s$: elastic (spring) potential energy</li>
+                                     <li>- $k$: spring constant, $x$: displacement from equilibrium</li>
+                                 </ul>
+                             </li>
+                            <li>$KE_i + U_i = KE_f + U_f$
+                                <ul class="list-none pl-4">
+                                    <li>- Conservation of Mechanical Energy (no non-conservative forces).</li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="accordion-content">
-                        <h3>Overview</h3>
-                        <p>This unit formalizes potential energy (PE) and the principle of energy conservation. For conservative forces (like gravity or springs), we can define a potential energy function $U$. The Conservation of Mechanical Energy states that in the absence of non-conservative work (like friction), the total mechanical energy $E = KE + PE$ of a system remains constant.</p>
-                         <div class="video-container">
-                             <p class="video-title">Video Lecture: Walter Lewin – Gravity, Pendulums, and Conservation of Energy</p>
-                             <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/86vsAM1JEkU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <div class="interactive-widget">
-                            <p class="widget-title">Interactive: Roller Coaster Energy</p>
-                            <label class="block text-sm font-medium mt-4">Hill 2 Height: <span id="hill2HeightVal">50</span>% of Hill 1</label>
-                            <input type="range" id="hill2Height" min="10" max="120" value="50" class="w-full">
-                            <button id="startCoaster" class="mt-4 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Run Coaster</button>
-                            <div class="grid md:grid-cols-3 gap-4 mt-4">
-                                <div class="md:col-span-2 bg-white p-2 rounded-lg border">
-                                    <canvas id="coasterCanvas" width="500" height="250"></canvas>
-                                </div>
-                                <div class="bg-white p-2 rounded-lg border">
-                                    <canvas id="energyBarChart" width="200" height="250"></canvas>
-                                </div>
+                    <h3>Overview</h3>
+                    <p>This unit formalizes potential energy (PE) and the principle of energy conservation. For conservative forces (like gravity or springs), we can define a potential energy function $U$. The Conservation of Mechanical Energy states that in the absence of non-conservative work (like friction), the total mechanical energy $E = KE + PE$ of a system remains constant.</p>
+                     <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – Gravity, Pendulums, and Conservation of Energy</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/86vsAM1JEkU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="interactive-widget">
+                        <p class="widget-title">Interactive: Roller Coaster Energy</p>
+                        <label class="block text-sm font-medium mt-4">Hill 2 Height: <span id="hill2HeightVal">50</span>% of Hill 1</label>
+                        <input type="range" id="hill2Height" min="10" max="120" value="50" class="w-full">
+                        <button id="startCoaster" class="mt-4 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Run Coaster</button>
+                        <div class="grid md:grid-cols-3 gap-4 mt-4">
+                            <div class="md:col-span-2 bg-white p-2 rounded-lg border">
+                                <canvas id="coasterCanvas" width="500" height="250"></canvas>
+                            </div>
+                            <div class="bg-white p-2 rounded-lg border">
+                                <canvas id="energyBarChart" width="200" height="250"></canvas>
                             </div>
                         </div>
-                        <div class="example">
-                            <p class="example-title">Example: Converting Spring PE to Gravitational PE</p>
-                            <p>A spring ($k=500$ N/m) is compressed by 0.20 m with a 1.5 kg ball. When released, how high does the ball go?</p>
-                             <p><strong>Solution:</strong> Initial energy is all spring potential: $U_{s,i} = \frac{1}{2}kx^2 = \frac{1}{2}(500)(0.20)^2 = 10$ J. At max height, all energy is gravitational potential: $PE_f = mgh_{max}$.</p>
-                             $$ PE_f = U_{s,i} \implies mgh_{max} = 10~\text{J} $$
-                             $$ h_{max} = \frac{10}{(1.5)(9.8)} \approx 0.68~\text{m} $$
-                             <p><strong>Answer:</strong> The ball rises about 0.68 m.</p>
-                        </div>
+                    </div>
+                    <div class="example">
+                        <p class="example-title">Example: Converting Spring PE to Gravitational PE</p>
+                        <p>A spring ($k=500$ N/m) is compressed by 0.20 m with a 1.5 kg ball. When released, how high does the ball go?</p>
+                         <p><strong>Solution:</strong> Initial energy is all spring potential: $U_{s,i} = \frac{1}{2}kx^2 = \frac{1}{2}(500)(0.20)^2 = 10$ J. At max height, all energy is gravitational potential: $PE_f = mgh_{max}$.</p>
+                         $$ PE_f = U_{s,i} \implies mgh_{max} = 10~\text{J} $$
+                         $$ h_{max} = \frac{10}{(1.5)(9.8)} \approx 0.68~\text{m} $$
+                         <p><strong>Answer:</strong> The ball rises about 0.68 m.</p>
                     </div>
                 </section>
                 
                 <!-- Unit 8 -->
                  <section id="unit8">
-                    <div class="accordion-header">
-                        <h2>Unit 8: Momentum and Impulse</h2>
-                        <svg class="accordion-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <h2>Unit 8: Momentum and Impulse</h2>
+                     <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                             <li>$\mathbf{p} = m\mathbf{v}$
+                                 <ul class="list-none pl-4"><li>- $\mathbf{p}$: linear momentum</li></ul>
+                             </li>
+                             <li>$\mathbf{J} = \mathbf{F}_{avg}\Delta t$
+                                 <ul class="list-none pl-4"><li>- $\mathbf{J}$: impulse</li></ul>
+                             </li>
+                            <li>$\mathbf{J} = \Delta\mathbf{p}$
+                                <ul class="list-none pl-4"><li>- Impulse-Momentum Theorem</li></ul>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="accordion-content">
-                         <h3>Overview</h3>
-                         <p>Linear momentum $\mathbf{p} = m\mathbf{v}$ is "quantity of motion." An impulse $\mathbf{J} = \mathbf{F}_{avg}\Delta t$ equals the change in momentum ($\mathbf{J} = \Delta\mathbf{p}$). This is useful for analyzing situations with large forces acting for short times, like collisions.</p>
-                         <div class="video-container">
-                             <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 15</p>
-                             <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/aIhScO3_I50" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <div class="example">
-                            <p class="example-title">Example: Impulse on a bouncing ball</p>
-                            <p>A 0.20 kg ball hits a wall at 10 m/s and bounces back at 8 m/s. What was the average force if contact lasted 0.05 s?</p>
-                            <p><strong>Solution:</strong> Let the initial direction be positive. $v_i = +10$ m/s, $v_f = -8$ m/s.</p>
-                            $$ \Delta p = mv_f - mv_i = 0.20(-8) - 0.20(10) = -3.6~\text{kg·m/s} $$
-                            $$ F_{avg} = \frac{\Delta p}{\Delta t} = \frac{-3.6}{0.05} = -72~\text{N} $$
-                            <p><strong>Answer:</strong> The average force was 72 N, directed away from the wall.</p>
-                        </div>
+                     <h3>Overview</h3>
+                     <p>Linear momentum $\mathbf{p} = m\mathbf{v}$ is "quantity of motion." An impulse $\mathbf{J} = \mathbf{F}_{avg}\Delta t$ equals the change in momentum ($\mathbf{J} = \Delta\mathbf{p}$). This is useful for analyzing situations with large forces acting for short times, like collisions.</p>
+                     <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 15</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/aIhScO3_I50" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="example">
+                        <p class="example-title">Example: Impulse on a bouncing ball</p>
+                        <p>A 0.20 kg ball hits a wall at 10 m/s and bounces back at 8 m/s. What was the average force if contact lasted 0.05 s?</p>
+                        <p><strong>Solution:</strong> Let the initial direction be positive. $v_i = +10$ m/s, $v_f = -8$ m/s.</p>
+                        $$ \Delta p = mv_f - mv_i = 0.20(-8) - 0.20(10) = -3.6~\text{kg·m/s} $$
+                        $$ F_{avg} = \frac{\Delta p}{\Delta t} = \frac{-3.6}{0.05} = -72~\text{N} $$
+                        <p><strong>Answer:</strong> The average force was 72 N, directed away from the wall.</p>
                     </div>
                 </section>
 
                 <!-- Unit 9 -->
                  <section id="unit9">
-                    <div class="accordion-header">
-                        <h2>Unit 9: Collisions</h2>
-                        <svg class="accordion-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <h2>Unit 9: Collisions</h2>
+                    <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                            <li>$\sum \mathbf{p}_i = \sum \mathbf{p}_f$
+                                <ul class="list-none pl-4"><li>- Conservation of Momentum (always applies in isolated systems).</li></ul>
+                            </li>
+                             <li>$\sum KE_i = \sum KE_f$
+                                 <ul class="list-none pl-4"><li>- Conservation of Kinetic Energy (only applies for elastic collisions).</li></ul>
+                             </li>
+                        </ul>
                     </div>
-                    <div class="accordion-content">
-                        <h3>Overview</h3>
-                         <p>This unit applies momentum conservation to collisions. In any collision within an isolated system, total momentum is conserved. We distinguish between <strong>elastic collisions</strong> (where kinetic energy is also conserved) and <strong>inelastic collisions</strong> (where it is not). In a perfectly inelastic collision, the objects stick together.</p>
-                         <div class="video-container">
-                             <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 16</p>
-                             <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/-q-WiX-KVXo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <div class="interactive-widget">
-                            <p class="widget-title">Interactive: 1D Collision Lab</p>
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <h4 class="font-semibold">Object 1 (Blue)</h4>
-                                    <label>Mass: <span id="m1Val">1</span> kg</label><input type="range" id="m1" min="1" max="10" value="1" class="w-full">
-                                    <label>Initial Velocity: <span id="v1Val">5</span> m/s</label><input type="range" id="v1" min="-10" max="10" value="5" class="w-full">
+                    <h3>Overview</h3>
+                     <p>This unit applies momentum conservation to collisions. In any collision within an isolated system, total momentum is conserved. We distinguish between <strong>elastic collisions</strong> (where kinetic energy is also conserved) and <strong>inelastic collisions</strong> (where it is not). In a perfectly inelastic collision, the objects stick together.</p>
+                     <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 16</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/-q-WiX-KVXo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="interactive-widget">
+                        <p class="widget-title">Interactive: 1D Collision Lab</p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-semibold">Object 1 (Blue)</h4>
+                                <label>Mass: <span id="m1Val">1</span> kg</label><input type="range" id="m1" min="1" max="10" value="1" class="w-full">
+                                <label>Initial Velocity: <span id="v1Val">5</span> m/s</label><input type="range" id="v1" min="-10" max="10" value="5" class="w-full">
 
-                                    <h4 class="font-semibold mt-4">Object 2 (Red)</h4>
-                                    <label>Mass: <span id="m2Val">2</span> kg</label><input type="range" id="m2" min="1" max="10" value="2" class="w-full">
-                                    <label>Initial Velocity: <span id="v2Val">-2</span> m/s</label><input type="range" id="v2" min="-10" max="10" value="-2" class="w-full">
-                                    
-                                    <label class="block mt-4"><input type="checkbox" id="stickTogether"> Stick together (inelastic)</label>
-                                    <button id="startCollision" class="mt-4 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Collide</button>
-                                </div>
-                                 <div class="bg-white p-2 rounded-lg border">
-                                   <canvas id="collisionCanvas" width="400" height="150"></canvas>
-                                   <div id="momentumReadout" class="text-sm p-2"></div>
-                                </div>
+                                <h4 class="font-semibold mt-4">Object 2 (Red)</h4>
+                                <label>Mass: <span id="m2Val">2</span> kg</label><input type="range" id="m2" min="1" max="10" value="2" class="w-full">
+                                <label>Initial Velocity: <span id="v2Val">-2</span> m/s</label><input type="range" id="v2" min="-10" max="10" value="-2" class="w-full">
+                                
+                                <label class="block mt-4"><input type="checkbox" id="stickTogether"> Stick together (inelastic)</label>
+                                <button id="startCollision" class="mt-4 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Collide</button>
+                            </div>
+                             <div class="bg-white p-2 rounded-lg border">
+                               <canvas id="collisionCanvas" width="400" height="150"></canvas>
+                               <div id="momentumReadout" class="text-sm p-2"></div>
                             </div>
                         </div>
                     </div>
@@ -429,56 +535,81 @@
                 
                 <!-- Unit 10 -->
                 <section id="unit10">
-                    <div class="accordion-header">
-                        <h2>Unit 10: Rotational Kinematics</h2>
-                        <svg class="accordion-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <h2>Unit 10: Rotational Kinematics</h2>
+                    <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas (for constant angular acceleration)</h4>
+                         <ul>
+                            <li>$\omega = \omega_0 + \alpha t$
+                                <ul class="list-none pl-4">
+                                    <li>- $\omega$: final angular velocity</li>
+                                    <li>- $\omega_0$: initial angular velocity</li>
+                                    <li>- $\alpha$: angular acceleration</li>
+                                </ul>
+                            </li>
+                             <li>$\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$
+                                 <ul class="list-none pl-4">
+                                     <li>- $\theta$: final angular position</li>
+                                     <li>- $\theta_0$: initial angular position</li>
+                                 </ul>
+                             </li>
+                            <li>$\omega^2 = \omega_0^2 + 2\alpha (\theta - \theta_0)$</li>
+                        </ul>
                     </div>
-                     <div class="accordion-content">
-                        <h3>Overview</h3>
-                         <p>Rotational kinematics describes angular motion. Key quantities are angular displacement ($\theta$), angular velocity ($\omega$), and angular acceleration ($\alpha$). The kinematic equations for constant angular acceleration mirror those for linear motion.</p>
-                         $$ \omega = \omega_0 + \alpha t \quad | \quad \theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2 \quad | \quad \omega^2 = \omega_0^2 + 2\alpha (\theta - \theta_0) $$
-                         <div class="video-container">
-                             <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 19</p>
-                             <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/fDJeVR0o__w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <div class="example">
-                             <p class="example-title">Example: Spinning up a wheel</p>
-                             <p>A turntable at rest accelerates uniformly with $\alpha = 2.0~\text{rad/s}^2$. (a) How long to reach $\omega = 6.0$ rad/s? (b) What angle does it rotate in that time?</p>
-                             <p><strong>Solution (a):</strong> Use $\omega = \omega_0 + \alpha t$. $6.0 = 0 + 2.0t \implies t = 3.0$ s.</p>
-                             <p><strong>Solution (b):</strong> Use $\theta = \omega_0 t + \frac{1}{2}\alpha t^2$. $\theta = 0 + \frac{1}{2}(2.0)(3.0)^2 = 9.0$ rad.</p>
-                             <p><strong>Answer:</strong> (a) 3.0 s, (b) 9.0 radians.</p>
-                        </div>
+                     <h3>Overview</h3>
+                     <p>Rotational kinematics describes angular motion. Key quantities are angular displacement ($\theta$), angular velocity ($\omega$), and angular acceleration ($\alpha$). The kinematic equations for constant angular acceleration mirror those for linear motion.</p>
+                     <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 19</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/fDJeVR0o__w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="example">
+                         <p class="example-title">Example: Spinning up a wheel</p>
+                         <p>A turntable at rest accelerates uniformly with $\alpha = 2.0~\text{rad/s}^2$. (a) How long to reach $\omega = 6.0$ rad/s? (b) What angle does it rotate in that time?</p>
+                         <p><strong>Solution (a):</strong> Use $\omega = \omega_0 + \alpha t$. $6.0 = 0 + 2.0t \implies t = 3.0$ s.</p>
+                         <p><strong>Solution (b):</strong> Use $\theta = \omega_0 t + \frac{1}{2}\alpha t^2$. $\theta = 0 + \frac{1}{2}(2.0)(3.0)^2 = 9.0$ rad.</p>
+                         <p><strong>Answer:</strong> (a) 3.0 s, (b) 9.0 radians.</p>
                     </div>
                 </section>
 
                 <!-- Unit 11 -->
                 <section id="unit11">
-                    <div class="accordion-header">
-                        <h2>Unit 11: Rotational Dynamics</h2>
-                        <svg class="accordion-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <h2>Unit 11: Rotational Dynamics</h2>
+                    <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                             <li>$\tau = rF\sin\phi$
+                                 <ul class="list-none pl-4"><li>- $\tau$: torque, $r$: lever arm, $F$: force, $\phi$: angle</li></ul>
+                             </li>
+                             <li>$\sum \tau = I \alpha$
+                                 <ul class="list-none pl-4"><li>- Newton's 2nd Law for Rotation ($I$: moment of inertia)</li></ul>
+                             </li>
+                             <li>$L = I\omega$
+                                <ul class="list-none pl-4"><li>- $L$: angular momentum</li></ul>
+                             </li>
+                             <li>$L_i = L_f$
+                                <ul class="list-none pl-4"><li>- Conservation of Angular Momentum</li></ul>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="accordion-content">
-                        <h3>Overview</h3>
-                         <p>This unit connects forces to rotational motion. <strong>Torque</strong> ($\tau$) is the rotational equivalent of force. <strong>Moment of Inertia</strong> ($I$) is the rotational equivalent of mass. Newton’s second law for rotation is $\sum \tau = I \alpha$. Angular momentum, $L=I\omega$, is conserved if net external torque is zero.</p>
-                         <div class="video-container">
-                             <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 20</p>
-                             <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/fXo9qP9i5a8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <div class="interactive-widget">
-                            <p class="widget-title">Interactive: Torque and Rotation</p>
-                             <div class="grid md:grid-cols-2 gap-4 items-center">
-                                <div>
-                                    <label>Applied Torque ($\tau$): <span id="torqueVal">5</span> N·m</label><input type="range" id="torque" min="-10" max="10" value="5" class="w-full">
-                                    <label class="mt-4">Moment of Inertia ($I$): <span id="inertiaVal">2</span> kg·m²</label><input type="range" id="inertia" min="1" max="5" value="2" step="0.1" class="w-full">
-                                    <button id="applyTorque" class="mt-4 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Apply Torque</button>
-                                </div>
-                                <div class="bg-white p-2 rounded-lg border text-center">
-                                   <canvas id="rotationCanvas" width="200" height="200"></canvas>
-                                   <div id="rotationReadout" class="text-sm p-2"></div>
-                                </div>
+                    <h3>Overview</h3>
+                     <p>This unit connects forces to rotational motion. <strong>Torque</strong> ($\tau$) is the rotational equivalent of force. <strong>Moment of Inertia</strong> ($I$) is the rotational equivalent of mass. Newton’s second law for rotation is $\sum \tau = I \alpha$. Angular momentum, $L=I\omega$, is conserved if net external torque is zero.</p>
+                     <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 20</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/fXo9qP9i5a8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="interactive-widget">
+                        <p class="widget-title">Interactive: Torque and Rotation</p>
+                         <div class="grid md:grid-cols-2 gap-4 items-center">
+                            <div>
+                                <label>Applied Torque ($\tau$): <span id="torqueVal">5</span> N·m</label><input type="range" id="torque" min="-10" max="10" value="5" class="w-full">
+                                <label class="mt-4">Moment of Inertia ($I$): <span id="inertiaVal">2</span> kg·m²</label><input type="range" id="inertia" min="1" max="5" value="2" step="0.1" class="w-full">
+                                <button id="applyTorque" class="mt-4 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Apply Torque</button>
                             </div>
-                         </div>
-                    </div>
+                            <div class="bg-white p-2 rounded-lg border text-center">
+                               <canvas id="rotationCanvas" width="200" height="200"></canvas>
+                               <div id="rotationReadout" class="text-sm p-2"></div>
+                            </div>
+                        </div>
+                     </div>
                 </section>
             </div>
             </div>
@@ -496,34 +627,8 @@
             }
         };
 
-        // --- Accordion Functionality ---
-        const accordionHeaders = document.querySelectorAll('.accordion-header');
-        accordionHeaders.forEach((header, index) => {
-            const content = header.nextElementSibling;
-            if (index === 0) { // Open first section by default
-                header.classList.add('active');
-                content.classList.add('open');
-                content.style.maxHeight = content.scrollHeight + "px";
-                renderMath(content);
-            }
-
-            header.addEventListener('click', () => {
-                const isOpen = header.classList.contains('active');
-                
-                accordionHeaders.forEach(h => {
-                    h.classList.remove('active');
-                    h.nextElementSibling.classList.remove('open');
-                    h.nextElementSibling.style.maxHeight = null;
-                });
-
-                if (!isOpen) {
-                    header.classList.add('active');
-                    content.classList.add('open');
-                    content.style.maxHeight = content.scrollHeight + "px";
-                    renderMath(content);
-                }
-            });
-        });
+        // Render math in the whole document on load
+        renderMath(document.body);
 
         // --- Mobile Menu ---
         const menuToggle = document.getElementById('menu-toggle');
@@ -686,7 +791,7 @@
                 
                 forceReadout.innerHTML = `<strong>Net Force:</strong> ${F_net.toFixed(1)} N<br><strong>Acceleration:</strong> ${acceleration.toFixed(2)} m/s²`;
                 document.getElementById('massVal').textContent = blockMassSlider.value;
-                document.getElementById('angleVal').textContent = inclineAngleSlider.value;
+                document.getElementById('angleValI').textContent = inclineAngleSlider.value;
                 document.getElementById('muKVal').textContent = muKineticSlider.value;
             }
             [blockMassSlider, inclineAngleSlider, muKineticSlider].forEach(s => s.addEventListener('input', drawIncline));
