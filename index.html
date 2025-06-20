@@ -13,6 +13,8 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+        }
+        main {
             scroll-behavior: smooth;
         }
         section {
@@ -89,7 +91,7 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 overflow-y-auto">
+        <main id="main-content" class="flex-1 overflow-y-auto">
              <!-- Mobile Header -->
             <div class="lg:hidden p-4 bg-white shadow-md sticky top-0 z-10 flex justify-between items-center">
                 <button id="menu-toggle" class="text-gray-800 focus:outline-none">
@@ -390,7 +392,7 @@
                     <h3>Overview</h3>
                     <p>This unit introduces the concepts of work, kinetic energy, and the work-energy principle. In physics, work $W$ is defined as the energy transferred by a force acting over a displacement. For a constant force $F$ acting on an object that undergoes displacement $d$, the work done by that force is $W = Fd\cos\theta$. Kinetic Energy (KE) is the energy of motion: $KE = \frac{1}{2}mv^2$. The Work-Energy Theorem states that the net work done on an object equals the change in its kinetic energy, $W_{\text{net}} = \Delta KE$.</p>
                      <div class="video-container">
-                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 11 (Start)</p>
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 11</p>
                          <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/9gUdDM6LZGo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     <div class="example">
@@ -618,18 +620,13 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Render LaTeX formulas when content becomes visible
-        const renderMath = (element) => {
-            if (window.renderMathInElement) {
-                renderMathInElement(element, {
-                    delimiters: [ {left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false} ]
-                });
-            }
-        };
-
-        // Render math in the whole document on load
-        renderMath(document.body);
-
+        // Render LaTeX formulas
+        if (window.renderMathInElement) {
+             renderMathInElement(document.body, {
+                delimiters: [ {left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false} ]
+            });
+        }
+       
         // --- Mobile Menu ---
         const menuToggle = document.getElementById('menu-toggle');
         const sidebar = document.getElementById('sidebar');
@@ -638,6 +635,33 @@
                 sidebar.classList.toggle('-translate-x-full');
             });
         }
+
+        // --- Active Nav Link on Scroll (Scrollspy) ---
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll("nav a.nav-link");
+        const mainContent = document.querySelector("#main-content");
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove("font-semibold", "text-blue-600");
+                        link.classList.add("text-gray-700", "hover:font-semibold");
+                        if (link.getAttribute("href").substring(1) === entry.target.id) {
+                            link.classList.add("font-semibold", "text-blue-600");
+                            link.classList.remove("text-gray-700");
+                        }
+                    });
+                }
+            });
+        }, {
+            root: mainContent, 
+            rootMargin: "0px 0px -75% 0px" // Trigger when top 25% of section is visible
+        });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
         
         // --- SIMULATOR SCRIPTS ---
 
@@ -665,7 +689,7 @@
                 
                 function animate(currentTime) {
                     let t = (currentTime - startTime) / 1000;
-                    t = Math.min(t, 5); // Limit to 5 seconds
+                    t = Math.min(t, 5);
 
                     const pos = vi * t + 0.5 * a * t * t;
                     const vel = vi + a * t;
@@ -676,7 +700,7 @@
                     
                     kinCtx.clearRect(0, 0, kinCtx.canvas.width, kinCtx.canvas.height);
                     kinCtx.fillStyle = '#3b82f6';
-                    const canvasX = kinCtx.canvas.width / 2 + pos * 2; // Scale position
+                    const canvasX = kinCtx.canvas.width / 2 + pos * 2;
                     const canvasY = kinCtx.canvas.height / 2;
                     kinCtx.beginPath();
                     kinCtx.arc(canvasX, canvasY, 10, 0, Math.PI * 2);
