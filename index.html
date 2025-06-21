@@ -3,72 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AB's Notes - Physics 1</title>
+    <title>AB's Notes - Physics I: Classical Mechanics</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <!-- KaTeX for LaTeX rendering -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" xintegrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI76/y24gIr0vKneL7JPMfYezg" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" xintegrity="sha384-X/XCfMm41VSsqRNQgDerQczD69XqmjOOOwYQvr/uuC+j4oAp06EVg/uu2FM8M3ym" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" xintegrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
+        }
+        main {
             scroll-behavior: smooth;
         }
-        .prose h2 {
-            border-bottom: 2px solid #e5e7eb;
-            padding-bottom: 8px;
-            margin-top: 2.5em;
-            margin-bottom: 1em;
+        section {
+            background-color: #fff;
+            border-radius: 8px;
+            margin-top: 2rem;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        h2 {
+             margin: 0 0 1rem 0;
+             padding-bottom: 0.5rem;
+             border-bottom: 2px solid #e5e7eb;
+             font-size: 1.5rem;
         }
         .prose h3 {
-            margin-top: 2em;
+            margin-top: 1.5em;
             margin-bottom: 1em;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.5rem;
         }
         .prose p, .prose ul, .prose li, .prose ol {
             line-height: 1.75;
         }
-        .interactive-widget, .example, .video-container, .helpful-links {
+        .key-formulas {
+            background-color: #f0fdf4; /* Light green background */
+            border: 1px solid #bbf7d0; /* Green border */
+            border-left: 4px solid #22c55e; /* Darker green left border */
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        .example, .video-container, .interactive-widget {
             background-color: #f9fafb;
             border: 1px solid #e5e7eb;
             padding: 1.5rem;
             margin: 2rem 0;
             border-radius: 8px;
+            border-left: 4px solid #3b82f6;
         }
-        .interactive-widget, .example, .video-container {
-             border-left: 4px solid #3b82f6;
-        }
-        .helpful-links {
-            border-left: 4px solid #10b981;
-        }
-        .widget-title, .example-title, .video-title, .links-title {
+        .example-title, .video-title, .widget-title {
             font-weight: 600;
             margin-bottom: 1rem;
             color: #1f2937;
-        }
-        .helpful-links ul {
-            list-style-type: disc;
-            padding-left: 1.5rem;
-        }
-         .helpful-links a {
-            color: #2563eb;
-            text-decoration: underline;
-        }
-        .prose .figure {
-            margin: 2rem 0;
-            text-align: center;
-        }
-        .prose .figure img, .prose .figure svg {
-            max-width: 100%;
-            height: auto;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            background-color: white;
-        }
-        .prose .caption {
-            font-size: 0.875rem;
-            color: #6b7280;
-            margin-top: 0.75rem;
         }
         .katex-display { display: block; margin: 1em 0; text-align: center; }
         .sidebar { transition: transform 0.3s ease-in-out; }
@@ -81,22 +71,40 @@
         <aside id="sidebar" class="w-64 bg-white shadow-md flex-shrink-0 fixed lg:relative h-full z-20 transform -translate-x-full lg:translate-x-0 sidebar">
             <div class="p-6">
                 <h1 class="text-2xl font-bold text-gray-900">AB's Notes</h1>
-                <p class="text-sm text-gray-600">Physics 1 Course</p>
+                 <div class="relative mt-2" id="course-switcher">
+                    <button id="course-switcher-button" class="flex items-center justify-between w-full px-3 py-2 text-left text-sm font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <span>Physics I: Classical Mechanics</span>
+                        <svg id="course-switcher-icon" class="w-5 h-5 ml-2 -mr-1 text-gray-400 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <div id="course-switcher-menu" class="absolute right-0 w-full mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-10">
+                        <div class="py-1">
+                            <a href="https://abielberhanu.github.io/AB-s-Notes-Circuits/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Circuits 1</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Physics 2</a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <nav class="mt-4 px-4">
-                <ul>
-                    <li class="mb-2"><a href="#kinematics" class="nav-link font-semibold text-blue-600 block p-2 rounded hover:bg-gray-200">1. Kinematics</a></li>
-                    <li class="mb-2"><a href="#newtons_laws" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">2. Newton's Laws</a></li>
-                    <li class="mb-2"><a href="#work_energy" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">3. Work and Energy</a></li>
-                    <li class="mb-2"><a href="#momentum" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">4. Momentum</a></li>
-                    <li class="mb-2"><a href="#rotation" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">5. Rotational Motion</a></li>
-                    <li class="mb-2"><a href="#oscillations" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">6. Oscillations & Waves</a></li>
+                 <ul>
+                    <li class="mb-2"><a href="#unit1" class="nav-link font-semibold text-blue-600 block p-2 rounded hover:bg-gray-200">1. Units & Vectors</a></li>
+                    <li class="mb-2"><a href="#unit2" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">2. 1D Kinematics</a></li>
+                    <li class="mb-2"><a href="#unit3" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">3. 2D Kinematics</a></li>
+                    <li class="mb-2"><a href="#unit4" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">4. Newton's Laws</a></li>
+                    <li class="mb-2"><a href="#unit5" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">5. Applications of Laws</a></li>
+                    <li class="mb-2"><a href="#unit6" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">6. Work & Energy</a></li>
+                    <li class="mb-2"><a href="#unit7" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">7. Energy Conservation</a></li>
+                    <li class="mb-2"><a href="#unit8" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">8. Momentum & Impulse</a></li>
+                    <li class="mb-2"><a href="#unit9" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">9. Collisions</a></li>
+                    <li class="mb-2"><a href="#unit10" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">10. Rotational Kinematics</a></li>
+                    <li class="mb-2"><a href="#unit11" class="nav-link text-gray-700 hover:font-semibold block p-2 rounded hover:bg-gray-200">11. Rotational Dynamics</a></li>
                 </ul>
             </nav>
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 overflow-y-auto">
+        <main id="main-content" class="flex-1 overflow-y-auto">
              <!-- Mobile Header -->
             <div class="lg:hidden p-4 bg-white shadow-md sticky top-0 z-10 flex justify-between items-center">
                 <button id="menu-toggle" class="text-gray-800 focus:outline-none">
@@ -105,37 +113,83 @@
                 <h1 class="text-xl font-bold text-gray-900">AB's Notes</h1>
             </div>
 
-            <div class="p-8 md:p-12">
+            <div class="p-4 md:p-8">
             <div class="prose max-w-4xl mx-auto">
+                <p>This comprehensive Physics I: Mechanics course is structured into units covering fundamental mechanics topics up to and including rotational motion. Each unit provides a concise overview of the topic, a recommended MIT video lecture, and worked example problems with step-by-step solutions. The course emphasizes clear concepts and problem-solving techniques, with short, focused explanations and logical organization for easy reference.</p>
                 
-                <!-- Kinematics Section -->
-                <section id="kinematics">
-                    <h2>1. Kinematics: The Study of Motion</h2>
-                    <p>
-                        Welcome to the first chapter of Physics 1! Kinematics is the branch of mechanics that describes the motion of objects without considering the forces that cause the motion. We'll start with the fundamental concepts that form the building blocks for everything else we'll study this semester. We'll focus on motion in one dimension first, then expand our understanding to two dimensions.
-                    </p>
-                    <h3>1.1 Position, Displacement, and Distance</h3>
-                    <p>To describe motion, we first need to be able to describe an object's position. In one dimension, an object's <strong>position</strong> is its location on a number line, often denoted by the variable $x$ or $y$.</p>
-                    <h3>1.2 Velocity and Speed</h3>
-                    <p><strong>Average velocity</strong> is the displacement divided by the time interval. <strong>Instantaneous velocity</strong> is the velocity at a specific moment in time, the derivative of position with respect to time: $ v = dx/dt $.</p>
-                    <h3>1.3 Acceleration</h3>
-                    <p><strong>Acceleration</strong> describes how the velocity of an object is changing. It is the derivative of velocity with respect to time: $ a = dv/dt $.</p>
-                    <h3>1.4 Kinematic Equations for Constant Acceleration</h3>
-                    <p>For motion with constant acceleration, a set of four powerful equations can be used to relate displacement, velocity, acceleration, and time.</p>
-                    <ul>
-                        <li>$v_f = v_i + at$</li>
-                        <li>$\Delta x = v_i t + \frac{1}{2}at^2$</li>
-                        <li>$v_f^2 = v_i^2 + 2a\Delta x$</li>
-                        <li>$\Delta x = \frac{1}{2}(v_i + v_f)t$</li>
-                    </ul>
-
-                    <div class="video-container">
-                        <p class="video-title">Video Lesson: Kinematics Basics</p>
-                        <iframe class="w-full aspect-video rounded-lg mt-4" src="https://www.youtube.com/embed/dHjWVlfNraM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- Unit 1 -->
+                <section id="unit1">
+                    <h2>Unit 1: Units, Measurement, and Vectors</h2>
+                    <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                        <ul>
+                            <li>$|\mathbf{R}| = \sqrt{R_x^2 + R_y^2}$
+                                <ul class="list-none pl-4"><li>- Magnitude of a resultant vector $\mathbf{R}$ from perpendicular components $R_x$ and $R_y$.</li></ul>
+                            </li>
+                            <li>$\theta = \arctan\left(\frac{R_y}{R_x}\right)$
+                                <ul class="list-none pl-4"><li>- Direction $\theta$ of a resultant vector relative to the x-axis.</li></ul>
+                            </li>
+                        </ul>
                     </div>
-
+                    <h3>Overview</h3>
+                    <p>This introductory unit covers the foundation of scientific measurement and vector quantities. We begin with the SI units of length (meter), mass (kilogram), and time (second). We also discuss measurement uncertainty and significant figures. The second part introduces vectors and scalars. Scalars have magnitude only (e.g. distance or speed), whereas vectors have both magnitude and direction. We learn how to represent vectors graphically (with arrows) and numerically (via components), and how to add and subtract them.</p>
+                    <div class="video-container">
+                        <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 1</p>
+                        <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/GtOGurrUPmQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="example">
+                        <p class="example-title">Example 1: Unit Conversion</p>
+                        <p>A car is traveling at 60.0 miles per hour (mi/h). Convert this speed to meters per second (m/s).</p>
+                        <p><strong>Solution:</strong> Use conversion factors: 1 mile = 1609 m, and 1 hour = 3600 s. Set up the conversion so units cancel appropriately:</p>
+                        $$ 60.0~\frac{\text{mi}}{\text{h}} \times \frac{1609~\text{m}}{1~\text{mi}} \times \frac{1~\text{h}}{3600~\text{s}} = \frac{60.0 \times 1609}{3600}~\frac{\text{m}}{\text{s}} \approx 26.8~\text{m/s} $$
+                        <p><strong>Answer:</strong> 60.0 mi/h is approximately 26.8 m/s.</p>
+                    </div>
+                    <div class="example">
+                        <p class="example-title">Example 2: Vector Addition</p>
+                        <p>Suppose you walk 3.0 km due East, then 4.0 km due North. Find the magnitude and direction of the resultant displacement $\mathbf{R}$.</p>
+                        <p><strong>Solution:</strong> The two displacements are perpendicular vectors. Use the Pythagorean theorem for the magnitude:</p>
+                        $$ |\mathbf{R}| = \sqrt{(3.0~\text{km})^2 + (4.0~\text{km})^2} = 5.0~\text{km} $$
+                        <p>Find the direction using the tangent function:</p>
+                        $$ \tan\theta = \frac{4.0~\text{km}}{3.0~\text{km}} \implies \theta = \arctan\left(\frac{4.0}{3.0}\right) \approx 53^\circ $$
+                        <p><strong>Answer:</strong> The resultant displacement is 5.0 km at 53° North of East.</p>
+                    </div>
+                </section>
+                
+                <!-- Unit 2 -->
+                <section id="unit2">
+                    <h2>Unit 2: One-Dimensional Kinematics</h2>
+                    <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas (for constant acceleration)</h4>
+                         <ul>
+                            <li>$v = v_0 + at$
+                                <ul class="list-none pl-4">
+                                    <li>- $v$: final velocity</li>
+                                    <li>- $v_0$: initial velocity</li>
+                                    <li>- $a$: acceleration</li>
+                                    <li>- $t$: time interval</li>
+                                </ul>
+                            </li>
+                            <li>$x = x_0 + v_0 t + \frac{1}{2} a t^2$
+                                 <ul class="list-none pl-4">
+                                    <li>- $x$: final position</li>
+                                    <li>- $x_0$: initial position</li>
+                                </ul>
+                            </li>
+                             <li>$v^2 = v_0^2 + 2a(x - x_0)$
+                                <ul class="list-none pl-4">
+                                    <li>- Relates variables without time.</li>
+                                </ul>
+                             </li>
+                        </ul>
+                    </div>
+                     <h3>Overview</h3>
+                    <p>Kinematics is the study of motion without regard to the forces that cause it. In one dimension (1D), we describe motion along a straight line. Key concepts are displacement ($\Delta x$), velocity ($v$), and acceleration ($a$). Accelerated motion with constant acceleration is described by a set of key equations. Free-fall under gravity is a common 1D case where acceleration $a = -g \approx -9.8~\text{m/s}^2$.</p>
+                    <div class="video-container">
+                        <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 2</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/q9IWoQ199_o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
                     <div class="interactive-widget">
-                        <p class="widget-title">Interactive Kinematics Simulator</p>
+                        <p class="widget-title">Interactive 1D Kinematics Simulator</p>
                         <div class="grid md:grid-cols-2 gap-4">
                             <div>
                                 <label for="initialVelocity" class="block text-sm font-medium text-gray-700">Initial Velocity ($v_i$): <span id="ivVal">10</span> m/s</label>
@@ -150,47 +204,159 @@
                                <p><strong>Time:</strong> <span id="kin-time">0.00</span> s</p>
                                <p><strong>Position:</strong> <span id="kin-pos">0.00</span> m</p>
                                <p><strong>Velocity:</strong> <span id="kin-vel">0.00</span> m/s</p>
-                               <canvas id="kinematicsCanvas" class="mt-2 border rounded-md"></canvas>
+                               <canvas id="kinematicsCanvas" class="mt-2 border rounded-md" width="300" height="100"></canvas>
                             </div>
                         </div>
                     </div>
-
-                    <div class="helpful-links">
-                        <h3 class="links-title">Helpful Links & Further Reading</h3>
-                        <ul>
-                            <li><a href="https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/syllabus/" target="_blank" rel="noopener noreferrer">MIT OpenCourseWare 8.01SC - Classical Mechanics</a></li>
-                            <li><a href="https://www.physicsclassroom.com/class/1dkin" target="_blank" rel="noopener noreferrer">The Physics Classroom - 1-D Kinematics</a></li>
-                            <li><a href="http://hyperphysics.phy-astr.gsu.edu/hbase/mot.html" target="_blank" rel="noopener noreferrer">HyperPhysics - Kinematics</a></li>
-                        </ul>
+                    <div class="example">
+                        <p class="example-title">Example 1: Uniform Acceleration</p>
+                         <p>A car initially at rest accelerates uniformly at $3.0~\text{m/s}^2$. (a) How fast will it be moving after 5.0 s? (b) How far will it have traveled?</p>
+                         <p><strong>Solution (a):</strong> Use $v = v_0 + at$. With $v_0=0$: $v = (3.0~\text{m/s}^2)(5.0~\text{s}) = 15.0~\text{m/s}$.</p>
+                         <p><strong>Solution (b):</strong> Use $x = v_0t + \frac{1}{2}at^2$. With $v_0=0$: $x = \frac{1}{2}(3.0~\text{m/s}^2)(5.0~\text{s})^2 = 37.5~\text{m}$.</p>
+                         <p><strong>Answer:</strong> (a) 15.0 m/s, (b) 37.5 m.</p>
+                    </div>
+                    <div class="example">
+                         <p class="example-title">Example 2: Free Fall</p>
+                         <p>A ball is thrown straight up with an initial speed of 20 m/s. (a) How high does it rise? (b) How long does it take to return to the release level?</p>
+                         <p><strong>Solution (a):</strong> At the highest point, $v=0$. Use $v^2 = v_0^2 + 2a\Delta y$. Let $a=-9.8~\text{m/s}^2$.</p>
+                         $$ 0 = (20)^2 + 2(-9.8)\Delta y \implies \Delta y = \frac{-400}{-19.6} \approx 20.4~\text{m} $$
+                         <p><strong>Solution (b):</strong> When the ball returns, displacement $\Delta y = 0$. Use $y = v_0 t + \frac{1}{2}a t^2$.</p>
+                         $$ 0 = 20t - 4.9t^2 = t(20 - 4.9t) \implies t = \frac{20}{4.9} \approx 4.1~\text{s} $$
+                         <p><strong>Answer:</strong> Max height ≈ 20.4 m, total time ≈ 4.1 s.</p>
                     </div>
                 </section>
 
-                <!-- Newton's Laws Section -->
-                <section id="newtons_laws">
-                    <h2>2. Newton's Laws of Motion</h2>
-                    <p>Sir Isaac Newton formulated three fundamental laws of motion that are the foundation of classical mechanics. These laws describe the relationship between an object and the forces acting upon it.</p>
-                    <h3>2.1 Newton's First Law: The Law of Inertia</h3>
-                    <p>An object at rest stays at rest and an object in motion stays in motion with the same speed and in the same direction unless acted upon by an unbalanced force.</p>
-                    <h3>2.2 Newton's Second Law: Force and Acceleration</h3>
-                    <p>The acceleration of an object is directly proportional to the net force acting on it and inversely proportional to its mass: $ \Sigma \vec{F} = m\vec{a} $.</p>
-                    <h3>2.3 Newton's Third Law: Action-Reaction</h3>
-                    <p>For every action, there is an equal and opposite reaction. If object A exerts a force on object B, then object B simultaneously exerts an equal and opposite force on object A.</p>
-                    
-                    <div class="video-container">
-                        <p class="video-title">Video Lesson: Newton's Laws of Motion</p>
-                        <iframe class="w-full aspect-video rounded-lg mt-4" src="https://www.youtube.com/embed/10KqhXbbLzs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- Unit 3 -->
+                <section id="unit3">
+                    <h2>Unit 3: Two-Dimensional Motion (Projectile Motion)</h2>
+                     <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                            <li>$v_{ix} = v_i \cos\theta \quad | \quad v_{iy} = v_i \sin\theta$
+                                <ul class="list-none pl-4">
+                                    <li>- $v_i$: initial launch speed</li>
+                                    <li>- $\theta$: launch angle</li>
+                                    <li>- $v_{ix}, v_{iy}$: initial x and y components of velocity</li>
+                                </ul>
+                            </li>
+                             <li>$x(t) = v_{ix}t$
+                                <ul class="list-none pl-4"><li>- Horizontal position at time $t$.</li></ul>
+                             </li>
+                             <li>$y(t) = v_{iy}t - \frac{1}{2}gt^2$
+                                <ul class="list-none pl-4">
+                                    <li>- Vertical position at time $t$.</li>
+                                    <li>- $g$: acceleration due to gravity (~9.8 m/s²)</li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
-
+                     <h3>Overview</h3>
+                     <p>This unit extends kinematics to two dimensions (2D). A key example is projectile motion. The critical concept is that horizontal and vertical motions are independent. The horizontal motion has constant velocity ($a_x=0$), while the vertical motion has constant downward acceleration ($a_y=-g$). The combination produces a parabolic trajectory.</p>
+                    <div class="video-container">
+                        <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 4</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/k6aJyOHTDYM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
                     <div class="interactive-widget">
+                         <p class="widget-title">Interactive Projectile Simulator</p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium">Initial Speed: <span id="speedVal">25</span> m/s</label>
+                                <input type="range" id="projSpeed" min="5" max="50" value="25" class="w-full">
+                                <label class="block text-sm font-medium mt-4">Launch Angle: <span id="angleValP">45</span>°</label>
+                                <input type="range" id="projAngle" min="0" max="90" value="45" class="w-full">
+                                <button id="launchProjectile" class="mt-6 w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Launch</button>
+                            </div>
+                            <div class="bg-white p-2 rounded-lg border">
+                               <canvas id="projectileCanvas" width="400" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="example">
+                         <p class="example-title">Example 1: Projectile Launched at an Angle</p>
+                         <p>A soccer ball is kicked from ground level at 25 m/s at a 30° angle. (a) How long is it in the air? (b) What is its range?</p>
+                         <p><strong>Solution:</strong> Initial velocity components: $v_{0x} = 25\cos30^\circ \approx 21.7~\text{m/s}$ and $v_{0y} = 25\sin30^\circ = 12.5~\text{m/s}$.</p>
+                         <p><strong>(a) Time of flight:</strong> Solve for time when vertical displacement is zero: $0 = v_{0y}t - \frac{1}{2}gt^2$.</p>
+                         $$ t = \frac{2v_{0y}}{g} = \frac{2(12.5)}{9.8} \approx 2.55~\text{s} $$
+                         <p><strong>(b) Range:</strong> Horizontal distance $x = v_{0x} \times t = 21.7~\text{m/s} \times 2.55~\text{s} \approx 55.3~\text{m}$.</p>
+                         <p><strong>Answer:</strong> Time ≈ 2.55 s, Range ≈ 55.3 m.</p>
+                    </div>
+                </section>
+                
+                <!-- Unit 4 -->
+                <section id="unit4">
+                    <h2>Unit 4: Newton’s Laws of Motion</h2>
+                    <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                             <li>$\sum \mathbf{F} = m \mathbf{a}$
+                                <ul class="list-none pl-4">
+                                    <li>- $\sum \mathbf{F}$: The net (vector sum) force on an object.</li>
+                                    <li>- $m$: mass of the object.</li>
+                                    <li>- $\mathbf{a}$: acceleration of the object.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <h3>Overview</h3>
+                    <p>This unit introduces Newton’s three laws, which form the basis for dynamics. The first law defines inertia. The second law quantifies the relationship between force, mass, and acceleration as $\sum \mathbf{F} = m \mathbf{a}$. The third law states that forces come in equal and opposite action-reaction pairs. We use free-body diagrams to identify all forces (weight, normal force, tension, friction) on an object.</p>
+                    <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 6</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/oduZsA0Tk58" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="example">
+                         <p class="example-title">Example: Net Force and Acceleration</p>
+                         <p>A 5.0 kg box is subjected to two forces: $F_1 = 20$ N East, and $F_2 = 15$ N North. Find the box’s acceleration.</p>
+                         <p><strong>Solution:</strong> Find the net force using vector addition. The magnitude is:</p>
+                         $$ F_{\text{net}} = \sqrt{(20~\text{N})^2 + (15~\text{N})^2} = 25~\text{N} $$
+                         <p>Apply Newton's Second Law to find acceleration:</p>
+                         $$ a = \frac{F_{\text{net}}}{m} = \frac{25~\text{N}}{5.0~\text{kg}} = 5.0~\text{m/s}^2 $$
+                         <p>The direction is $\theta = \arctan(15/20) \approx 36.9^\circ$ North of East.</p>
+                         <p><strong>Answer:</strong> a = 5.0 m/s² at 36.9° North of East.</p>
+                    </div>
+                </section>
+
+                <!-- Unit 5 -->
+                <section id="unit5">
+                    <h2>Unit 5: Applications of Newton’s Laws</h2>
+                     <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                             <li>$f_s \le \mu_s N$
+                                <ul class="list-none pl-4">
+                                    <li>- $f_s$: force of static friction</li>
+                                    <li>- $\mu_s$: coefficient of static friction</li>
+                                    <li>- $N$: normal force</li>
+                                </ul>
+                             </li>
+                             <li>$f_k = \mu_k N$
+                                <ul class="list-none pl-4">
+                                    <li>- $f_k$: force of kinetic friction</li>
+                                    <li>- $\mu_k$: coefficient of kinetic friction</li>
+                                </ul>
+                             </li>
+                            <li>$F_c = \frac{mv^2}{r}$
+                                <ul class="list-none pl-4">
+                                    <li>- $F_c$: centripetal force</li>
+                                    <li>- $v$: tangential speed</li>
+                                    <li>- $r$: radius of circular path</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <h3>Overview</h3>
+                    <p>We apply Newton’s laws to more complex situations involving friction, tension, and inclined planes. Friction opposes motion, with static friction ($f_s$) preventing motion and kinetic friction ($f_k$) opposing it. Tension is a pulling force through a rope. For objects on an incline, we resolve weight into components parallel and perpendicular to the slope.</p>
+                     <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 8</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/FWh-enOdXM4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <div class="interactive-widget">
                         <p class="widget-title">Interactive: Block on an Incline</p>
                         <div class="grid md:grid-cols-2 gap-6 items-center">
                             <div>
                                 <label class="block text-sm font-medium">Mass: <span id="massVal">10</span> kg</label>
                                 <input type="range" id="blockMass" min="1" max="50" value="10" class="w-full">
-                                <label class="block text-sm font-medium mt-4">Incline Angle: <span id="angleVal">30</span>°</label>
+                                <label class="block text-sm font-medium mt-4">Incline Angle: <span id="angleValI">30</span>°</label>
                                 <input type="range" id="inclineAngle" min="0" max="60" value="30" class="w-full">
-                                <label class="block text-sm font-medium mt-4">Static Friction ($\mu_s$): <span id="muSVal">0.3</span></label>
-                                <input type="range" id="muStatic" min="0" max="1" step="0.05" value="0.3" class="w-full">
                                 <label class="block text-sm font-medium mt-4">Kinetic Friction ($\mu_k$): <span id="muKVal">0.2</span></label>
                                 <input type="range" id="muKinetic" min="0" max="1" step="0.05" value="0.2" class="w-full">
                             </div>
@@ -200,30 +366,88 @@
                             </div>
                         </div>
                     </div>
-                    <div class="helpful-links">
-                        <h3 class="links-title">Helpful Links & Further Reading</h3>
-                        <ul>
-                            <li><a href="https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/resources/mit8_01scs22_chapter7/" target="_blank" rel="noopener noreferrer">MIT OCW 8.01SC - Newton's Laws Notes (PDF)</a></li>
-                            <li><a href="https://www.physicsclassroom.com/class/newtlaws" target="_blank" rel="noopener noreferrer">The Physics Classroom - Newton's Laws</a></li>
-                            <li><a href="http://hyperphysics.phy-astr.gsu.edu/hbase/Newt.html" target="_blank" rel="noopener noreferrer">HyperPhysics - Newton's Laws</a></li>
-                        </ul>
+                    <div class="example">
+                         <p class="example-title">Example: Atwood’s Machine</p>
+                         <p>Two masses, $m_1 = 4.0$ kg and $m_2 = 6.0$ kg, are connected by a light rope over a frictionless pulley. Find their acceleration.</p>
+                         <p><strong>Solution:</strong> The net force on the system is the difference in weights: $F_{net} = (m_2 - m_1)g$. This net force accelerates the total mass $M = m_1 + m_2$.</p>
+                         $$ a = \frac{F_{net}}{M} = \frac{(m_2 - m_1)g}{m_1 + m_2} = \frac{(6.0 - 4.0)(9.8)}{6.0 + 4.0} = \frac{19.6}{10} = 1.96~\text{m/s}^2 $$
+                         <p><strong>Answer:</strong> The acceleration is 1.96 m/s².</p>
                     </div>
                 </section>
-                
-                <!-- Work and Energy Section -->
-                <section id="work_energy">
-                    <h2>3. Work and Energy</h2>
-                    <p>The concepts of work and energy provide a powerful alternative framework for analyzing motion, often simplifying complex problems.</p>
-                    <h3>3.1 Work and Kinetic Energy</h3>
-                    <p><strong>Work</strong> is done when a force causes displacement ($ W = Fd\cos\theta $). The <strong>Work-Energy Theorem</strong> states that the net work done on an object equals its change in <strong>kinetic energy</strong> ($ K = \frac{1}{2}mv^2 $).</p>
-                    <h3>3.2 Potential Energy and Conservation</h3>
-                    <p><strong>Potential Energy</strong> ($U$) is stored energy. The total mechanical energy ($E = K + U$) of an isolated system is conserved if only conservative forces (like gravity) do work.</p>
-                    
-                    <div class="video-container">
-                        <p class="video-title">Video Lesson: Work, Energy, and Power</p>
-                        <iframe class="w-full aspect-video rounded-lg mt-4" src="https://www.youtube.com/embed/w4QFJb9a8vo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
 
+                <!-- Unit 6 -->
+                <section id="unit6">
+                    <h2>Unit 6: Work and Energy</h2>
+                     <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                             <li>$W = Fd\cos\theta$
+                                 <ul class="list-none pl-4">
+                                     <li>- $W$: work done by a constant force</li>
+                                     <li>- $F$: magnitude of the force</li>
+                                     <li>- $d$: magnitude of the displacement</li>
+                                     <li>- $\theta$: angle between force and displacement</li>
+                                 </ul>
+                             </li>
+                             <li>$KE = \frac{1}{2}mv^2$
+                                 <ul class="list-none pl-4">
+                                     <li>- $KE$: kinetic energy</li>
+                                     <li>- $m$: mass, $v$: speed</li>
+                                 </ul>
+                             </li>
+                            <li>$W_{\text{net}} = \Delta KE$
+                                <ul class="list-none pl-4">
+                                     <li>- Work-Energy Theorem: Net work equals change in kinetic energy.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <h3>Overview</h3>
+                    <p>This unit introduces the concepts of work, kinetic energy, and the work-energy principle. In physics, work $W$ is defined as the energy transferred by a force acting over a displacement. For a constant force $F$ acting on an object that undergoes displacement $d$, the work done by that force is $W = Fd\cos\theta$. Kinetic Energy (KE) is the energy of motion: $KE = \frac{1}{2}mv^2$. The Work-Energy Theorem states that the net work done on an object equals the change in its kinetic energy, $W_{\text{net}} = \Delta KE$.</p>
+                     <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 11</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/9gUdDM6LZGo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="example">
+                        <p class="example-title">Example: Work Done by a Force at an Angle</p>
+                        <p>A person pulls a sled along level ground by applying a 100 N force via a rope that makes a 30° angle above the horizontal. The sled moves 10 m forward. How much work is done?</p>
+                        <p><strong>Solution:</strong> Use the formula $W = Fd\cos\theta$.</p>
+                        $$ W = (100~\text{N})(10~\text{m})\cos(30^\circ) \approx 866~\text{J} $$
+                        <p><strong>Answer:</strong> 866 J of work is done by the person on the sled.</p>
+                    </div>
+                </section>
+
+                <!-- Unit 7 -->
+                <section id="unit7">
+                    <h2>Unit 7: Conservation of Energy</h2>
+                     <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                            <li>$U_g = mgh$
+                                <ul class="list-none pl-4">
+                                    <li>- $U_g$: gravitational potential energy</li>
+                                    <li>- $h$: height above a reference level</li>
+                                </ul>
+                            </li>
+                             <li>$U_s = \frac{1}{2}kx^2$
+                                 <ul class="list-none pl-4">
+                                     <li>- $U_s$: elastic (spring) potential energy</li>
+                                     <li>- $k$: spring constant, $x$: displacement from equilibrium</li>
+                                 </ul>
+                             </li>
+                            <li>$KE_i + U_i = KE_f + U_f$
+                                <ul class="list-none pl-4">
+                                    <li>- Conservation of Mechanical Energy (no non-conservative forces).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <h3>Overview</h3>
+                    <p>This unit formalizes potential energy (PE) and the principle of energy conservation. For conservative forces (like gravity or springs), we can define a potential energy function $U$. The Conservation of Mechanical Energy states that in the absence of non-conservative work (like friction), the total mechanical energy $E = KE + PE$ of a system remains constant.</p>
+                     <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – Gravity, Pendulums, and Conservation of Energy</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/86vsAM1JEkU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
                     <div class="interactive-widget">
                         <p class="widget-title">Interactive: Roller Coaster Energy</p>
                         <label class="block text-sm font-medium mt-4">Hill 2 Height: <span id="hill2HeightVal">50</span>% of Hill 1</label>
@@ -238,33 +462,70 @@
                             </div>
                         </div>
                     </div>
-                    <div class="helpful-links">
-                        <h3 class="links-title">Helpful Links & Further Reading</h3>
-                        <ul>
-                            <li><a href="https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/resources/mit8_01scs22_chapter13/" target="_blank" rel="noopener noreferrer">MIT OCW 8.01SC - Work and Kinetic Energy (PDF)</a></li>
-                            <li><a href="https://www.physicsclassroom.com/class/energy" target="_blank" rel="noopener noreferrer">The Physics Classroom - Work, Energy, and Power</a></li>
-                            <li><a href="http://hyperphysics.phy-astr.gsu.edu/hbase/work.html" target="_blank" rel="noopener noreferrer">HyperPhysics - Work-Energy Principle</a></li>
-                        </ul>
+                    <div class="example">
+                        <p class="example-title">Example: Converting Spring PE to Gravitational PE</p>
+                        <p>A spring ($k=500$ N/m) is compressed by 0.20 m with a 1.5 kg ball. When released, how high does the ball go?</p>
+                         <p><strong>Solution:</strong> Initial energy is all spring potential: $U_{s,i} = \frac{1}{2}kx^2 = \frac{1}{2}(500)(0.20)^2 = 10$ J. At max height, all energy is gravitational potential: $PE_f = mgh_{max}$.</p>
+                         $$ PE_f = U_{s,i} \implies mgh_{max} = 10~\text{J} $$
+                         $$ h_{max} = \frac{10}{(1.5)(9.8)} \approx 0.68~\text{m} $$
+                         <p><strong>Answer:</strong> The ball rises about 0.68 m.</p>
                     </div>
                 </section>
                 
-                <!-- Momentum Section -->
-                <section id="momentum">
-                     <h2>4. Linear Momentum and Collisions</h2>
-                     <p>Momentum, or "mass in motion," is a crucial concept for understanding collisions and interactions between objects.</p>
-                     <h3>4.1 Linear Momentum and Impulse</h3>
-                     <p><strong>Linear momentum</strong> ($\vec{p}$) is a vector defined as $ \vec{p} = m\vec{v} $. <strong>Impulse</strong> ($\vec{J}$) is the change in momentum, equal to the net force applied over a time interval: $ \vec{J} = \Delta\vec{p} = \vec{F}_{net}\Delta t $.</p>
-                     <h3>4.2 Conservation of Momentum</h3>
-                     <p>For an isolated system (no external net forces), the total momentum is constant. This is powerful for analyzing collisions.</p>
-                     <h3>4.3 Collisions</h3>
-                     <p>In <strong>elastic collisions,</strong> both momentum and kinetic energy are conserved. In <strong>inelastic collisions,</strong> momentum is conserved, but kinetic energy is not.</p>
-
-                    <div class="video-container">
-                        <p class="video-title">Video Lesson: Collisions</p>
-                        <iframe class="w-full aspect-video rounded-lg mt-4" src="https://www.youtube.com/embed/Y-QOfc2XqOk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- Unit 8 -->
+                 <section id="unit8">
+                    <h2>Unit 8: Momentum and Impulse</h2>
+                     <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                             <li>$\mathbf{p} = m\mathbf{v}$
+                                 <ul class="list-none pl-4"><li>- $\mathbf{p}$: linear momentum</li></ul>
+                             </li>
+                             <li>$\mathbf{J} = \mathbf{F}_{avg}\Delta t$
+                                 <ul class="list-none pl-4"><li>- $\mathbf{J}$: impulse</li></ul>
+                             </li>
+                            <li>$\mathbf{J} = \Delta\mathbf{p}$
+                                <ul class="list-none pl-4"><li>- Impulse-Momentum Theorem</li></ul>
+                            </li>
+                        </ul>
                     </div>
+                     <h3>Overview</h3>
+                     <p>Linear momentum $\mathbf{p} = m\mathbf{v}$ is "quantity of motion." An impulse $\mathbf{J} = \mathbf{F}_{avg}\Delta t$ equals the change in momentum ($\mathbf{J} = \Delta\mathbf{p}$). This is useful for analyzing situations with large forces acting for short times, like collisions.</p>
+                     <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 15</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/aIhScO3_I50" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="example">
+                        <p class="example-title">Example: Impulse on a bouncing ball</p>
+                        <p>A 0.20 kg ball hits a wall at 10 m/s and bounces back at 8 m/s. What was the average force if contact lasted 0.05 s?</p>
+                        <p><strong>Solution:</strong> Let the initial direction be positive. $v_i = +10$ m/s, $v_f = -8$ m/s.</p>
+                        $$ \Delta p = mv_f - mv_i = 0.20(-8) - 0.20(10) = -3.6~\text{kg·m/s} $$
+                        $$ F_{avg} = \frac{\Delta p}{\Delta t} = \frac{-3.6}{0.05} = -72~\text{N} $$
+                        <p><strong>Answer:</strong> The average force was 72 N, directed away from the wall.</p>
+                    </div>
+                </section>
 
-                     <div class="interactive-widget">
+                <!-- Unit 9 -->
+                 <section id="unit9">
+                    <h2>Unit 9: Collisions</h2>
+                    <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                            <li>$\sum \mathbf{p}_i = \sum \mathbf{p}_f$
+                                <ul class="list-none pl-4"><li>- Conservation of Momentum (always applies in isolated systems).</li></ul>
+                            </li>
+                             <li>$\sum KE_i = \sum KE_f$
+                                 <ul class="list-none pl-4"><li>- Conservation of Kinetic Energy (only applies for elastic collisions).</li></ul>
+                             </li>
+                        </ul>
+                    </div>
+                    <h3>Overview</h3>
+                     <p>This unit applies momentum conservation to collisions. In any collision within an isolated system, total momentum is conserved. We distinguish between <strong>elastic collisions</strong> (where kinetic energy is also conserved) and <strong>inelastic collisions</strong> (where it is not). In a perfectly inelastic collision, the objects stick together.</p>
+                     <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 16</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/-q-WiX-KVXo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="interactive-widget">
                         <p class="widget-title">Interactive: 1D Collision Lab</p>
                         <div class="grid md:grid-cols-2 gap-4">
                             <div>
@@ -276,9 +537,8 @@
                                 <label>Mass: <span id="m2Val">2</span> kg</label><input type="range" id="m2" min="1" max="10" value="2" class="w-full">
                                 <label>Initial Velocity: <span id="v2Val">-2</span> m/s</label><input type="range" id="v2" min="-10" max="10" value="-2" class="w-full">
                                 
-                                <label class="block mt-4"><input type="checkbox" id="stickTogether"> Stick together (perfectly inelastic)</label>
+                                <label class="block mt-4"><input type="checkbox" id="stickTogether"> Stick together (inelastic)</label>
                                 <button id="startCollision" class="mt-4 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Collide</button>
-                                <button id="resetCollision" class="mt-4 bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-600">Reset</button>
                             </div>
                              <div class="bg-white p-2 rounded-lg border">
                                <canvas id="collisionCanvas" width="400" height="150"></canvas>
@@ -286,36 +546,78 @@
                             </div>
                         </div>
                     </div>
-                    <div class="helpful-links">
-                        <h3 class="links-title">Helpful Links & Further Reading</h3>
-                        <ul>
-                            <li><a href="https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/resources/mit8_01scs22_chapter16/" target="_blank" rel="noopener noreferrer">MIT OCW 8.01SC - Momentum & Collisions (PDF)</a></li>
-                            <li><a href="https://www.physicsclassroom.com/class/momentum" target="_blank" rel="noopener noreferrer">The Physics Classroom - Momentum and Collisions</a></li>
-                            <li><a href="http://hyperphysics.phy-astr.gsu.edu/hbase/conser.html#conmom" target="_blank" rel="noopener noreferrer">HyperPhysics - Conservation of Momentum</a></li>
-                        </ul>
-                    </div>
                 </section>
                 
-                <!-- Rotational Motion Section -->
-                <section id="rotation">
-                     <h2>5. Rotational Motion</h2>
-                     <p>We now consider the motion of extended, rigid bodies as they rotate about an axis.</p>
-                     <h3>5.1 Rotational Kinematics & Dynamics</h3>
-                     <p>We use angular variables: angular position ($\theta$), velocity ($\omega$), and acceleration ($\alpha$). <strong>Torque</strong> ($\tau$) is the rotational equivalent of force, and <strong>Moment of Inertia</strong> ($I$) is the rotational equivalent of mass. Newton's Second Law for rotation is: $ \Sigma \vec{\tau} = I\vec{\alpha} $.</p>
-
-                    <div class="video-container">
-                        <p class="video-title">Video Lesson: Rotational Motion</p>
-                        <iframe class="w-full aspect-video rounded-lg mt-4" src="https://www.youtube.com/embed/fmXFWi-WfyU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <!-- Unit 10 -->
+                <section id="unit10">
+                    <h2>Unit 10: Rotational Kinematics</h2>
+                    <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas (for constant angular acceleration)</h4>
+                         <ul>
+                            <li>$\omega = \omega_0 + \alpha t$
+                                <ul class="list-none pl-4">
+                                    <li>- $\omega$: final angular velocity</li>
+                                    <li>- $\omega_0$: initial angular velocity</li>
+                                    <li>- $\alpha$: angular acceleration</li>
+                                </ul>
+                            </li>
+                             <li>$\theta = \theta_0 + \omega_0 t + \frac{1}{2}\alpha t^2$
+                                 <ul class="list-none pl-4">
+                                     <li>- $\theta$: final angular position</li>
+                                     <li>- $\theta_0$: initial angular position</li>
+                                 </ul>
+                             </li>
+                            <li>$\omega^2 = \omega_0^2 + 2\alpha (\theta - \theta_0)$</li>
+                        </ul>
                     </div>
+                     <h3>Overview</h3>
+                     <p>Rotational kinematics describes angular motion. Key quantities are angular displacement ($\theta$), angular velocity ($\omega$), and angular acceleration ($\alpha$). The kinematic equations for constant angular acceleration mirror those for linear motion.</p>
+                     <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 19</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/fDJeVR0o__w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="example">
+                         <p class="example-title">Example: Spinning up a wheel</p>
+                         <p>A turntable at rest accelerates uniformly with $\alpha = 2.0~\text{rad/s}^2$. (a) How long to reach $\omega = 6.0$ rad/s? (b) What angle does it rotate in that time?</p>
+                         <p><strong>Solution (a):</strong> Use $\omega = \omega_0 + \alpha t$. $6.0 = 0 + 2.0t \implies t = 3.0$ s.</p>
+                         <p><strong>Solution (b):</strong> Use $\theta = \omega_0 t + \frac{1}{2}\alpha t^2$. $\theta = 0 + \frac{1}{2}(2.0)(3.0)^2 = 9.0$ rad.</p>
+                         <p><strong>Answer:</strong> (a) 3.0 s, (b) 9.0 radians.</p>
+                    </div>
+                </section>
 
-                     <div class="interactive-widget">
+                <!-- Unit 11 -->
+                <section id="unit11">
+                    <h2>Unit 11: Rotational Dynamics</h2>
+                    <div class="key-formulas">
+                        <h4 class="font-semibold text-lg">Key Formulas</h4>
+                         <ul>
+                             <li>$\tau = rF\sin\phi$
+                                 <ul class="list-none pl-4"><li>- $\tau$: torque, $r$: lever arm, $F$: force, $\phi$: angle</li></ul>
+                             </li>
+                             <li>$\sum \tau = I \alpha$
+                                 <ul class="list-none pl-4"><li>- Newton's 2nd Law for Rotation ($I$: moment of inertia)</li></ul>
+                             </li>
+                             <li>$L = I\omega$
+                                <ul class="list-none pl-4"><li>- $L$: angular momentum</li></ul>
+                             </li>
+                             <li>$L_i = L_f$
+                                <ul class="list-none pl-4"><li>- Conservation of Angular Momentum</li></ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <h3>Overview</h3>
+                     <p>This unit connects forces to rotational motion. <strong>Torque</strong> ($\tau$) is the rotational equivalent of force. <strong>Moment of Inertia</strong> ($I$) is the rotational equivalent of mass. Newton’s second law for rotation is $\sum \tau = I \alpha$. Angular momentum, $L=I\omega$, is conserved if net external torque is zero.</p>
+                     <div class="video-container">
+                         <p class="video-title">Video Lecture: Walter Lewin – MIT 8.01x Lecture 20</p>
+                         <iframe class="w-full aspect-video rounded-lg" src="https://www.youtube.com/embed/fXo9qP9i5a8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="interactive-widget">
                         <p class="widget-title">Interactive: Torque and Rotation</p>
                          <div class="grid md:grid-cols-2 gap-4 items-center">
                             <div>
                                 <label>Applied Torque ($\tau$): <span id="torqueVal">5</span> N·m</label><input type="range" id="torque" min="-10" max="10" value="5" class="w-full">
                                 <label class="mt-4">Moment of Inertia ($I$): <span id="inertiaVal">2</span> kg·m²</label><input type="range" id="inertia" min="1" max="5" value="2" step="0.1" class="w-full">
                                 <button id="applyTorque" class="mt-4 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Apply Torque</button>
-                                <button id="resetRotation" class="mt-4 bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-600">Reset</button>
                             </div>
                             <div class="bg-white p-2 rounded-lg border text-center">
                                <canvas id="rotationCanvas" width="200" height="200"></canvas>
@@ -323,59 +625,7 @@
                             </div>
                         </div>
                      </div>
-                     <div class="helpful-links">
-                        <h3 class="links-title">Helpful Links & Further Reading</h3>
-                        <ul>
-                            <li><a href="https://openlearninglibrary.mit.edu/courses/course-v1:MITx+8.01.3x+1T2019/about" target="_blank" rel="noopener noreferrer">MIT Open Learning Library - Rotational Dynamics</a></li>
-                            <li><a href="https://www.physicsclassroom.com/class/rotation" target="_blank" rel="noopener noreferrer">The Physics Classroom - Rotation</a></li>
-                            <li><a href="http://hyperphysics.phy-astr.gsu.edu/hbase/rot.html" target="_blank" rel="noopener noreferrer">HyperPhysics - Rotational Motion</a></li>
-                        </ul>
-                    </div>
                 </section>
-                
-                <!-- Oscillations and Waves Section -->
-                <section id="oscillations">
-                    <h2>6. Oscillations & Waves</h2>
-                    <p>This final section covers periodic motion—motion that repeats itself in a regular cycle—and the propagation of disturbances, known as waves.</p>
-                    <h3>6.1 Simple Harmonic Motion (SHM)</h3>
-                    <p>SHM is periodic motion where the restoring force is proportional to the displacement (e.g., a mass on a spring, $F = -kx$). The period ($T$) is the time for one full oscillation.</p>
-                    <h3>6.2 Waves</h3>
-                    <p>A wave is a disturbance transferring energy. Key properties are amplitude, wavelength ($\lambda$), frequency ($f$), and speed ($v = f\lambda$).</p>
-
-                    <div class="video-container">
-                        <p class="video-title">Video Lesson: Oscillations and Waves</p>
-                        <iframe class="w-full aspect-video rounded-lg mt-4" src="https://www.youtube.com/embed/t0YQoCSwPJ0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-
-                    <div class="interactive-widget">
-                        <p class="widget-title">Interactive: Simple Harmonic Motion Lab</p>
-                         <div class="grid md:grid-cols-2 gap-6 items-start">
-                            <div class="bg-white p-4 rounded-lg border">
-                                <h4 class="font-semibold text-center">Mass-Spring System</h4>
-                                <label>Mass: <span id="springMassVal">1</span> kg</label><input type="range" id="springMass" min="0.5" max="5" value="1" step="0.1" class="w-full">
-                                <label class="mt-2">Spring Constant (k): <span id="kVal">10</span> N/m</label><input type="range" id="springK" min="2" max="50" value="10" class="w-full">
-                                <canvas id="springCanvas" width="150" height="250" class="mx-auto mt-2"></canvas>
-                                <p class="text-center font-semibold mt-2">Period: <span id="springPeriod">0.00</span> s</p>
-                            </div>
-                            <div class="bg-white p-4 rounded-lg border">
-                                <h4 class="font-semibold text-center">Simple Pendulum</h4>
-                                <label>Length: <span id="lengthVal">1.5</span> m</label><input type="range" id="pendulumL" min="0.5" max="3" value="1.5" step="0.1" class="w-full">
-                                <label class="mt-2">Gravity: <span id="gravityVal">9.8</span> m/s²</label><input type="range" id="pendulumG" min="1" max="25" value="9.8" step="0.1" class="w-full">
-                                <canvas id="pendulumCanvas" width="200" height="250" class="mx-auto mt-2"></canvas>
-                                <p class="text-center font-semibold mt-2">Period: <span id="pendulumPeriod">0.00</span> s</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="helpful-links">
-                        <h3 class="links-title">Helpful Links & Further Reading</h3>
-                        <ul>
-                            <li><a href="https://ocw.mit.edu/courses/res-8-009-introduction-to-oscillations-and-waves-summer-2017/" target="_blank" rel="noopener noreferrer">MIT OCW - Introduction to Oscillations and Waves</a></li>
-                            <li><a href="https://www.physicsclassroom.com/class/waves" target="_blank" rel="noopener noreferrer">The Physics Classroom - Vibrations and Waves</a></li>
-                            <li><a href="http://hyperphysics.phy-astr.gsu.edu/hbase/shm.html" target="_blank" rel="noopener noreferrer">HyperPhysics - Simple Harmonic Motion</a></li>
-                        </ul>
-                    </div>
-                </section>
-
             </div>
             </div>
         </main>
@@ -384,424 +634,388 @@
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Render LaTeX formulas
-        renderMathInElement(document.body, {
-            delimiters: [
-                {left: "$$", right: "$$", display: true},
-                {left: "$", right: "$", display: false}
-            ]
-        });
-
+        if (window.renderMathInElement) {
+             renderMathInElement(document.body, {
+                delimiters: [ {left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false} ]
+            });
+        }
+       
         // --- Mobile Menu ---
         const menuToggle = document.getElementById('menu-toggle');
         const sidebar = document.getElementById('sidebar');
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('-translate-x-full');
+        if(menuToggle && sidebar) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+        }
+
+        // --- Course Switcher Dropdown ---
+        const switcherButton = document.getElementById('course-switcher-button');
+        const switcherMenu = document.getElementById('course-switcher-menu');
+        const switcherIcon = document.getElementById('course-switcher-icon');
+        if (switcherButton) {
+            switcherButton.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const isHidden = switcherMenu.classList.toggle('hidden');
+                switcherIcon.classList.toggle('rotate-180', !isHidden);
+            });
+        }
+        document.addEventListener('click', (event) => {
+            const switcher = document.getElementById('course-switcher');
+            if (switcher && !switcher.contains(event.target)) {
+                switcherMenu.classList.add('hidden');
+                switcherIcon.classList.remove('rotate-180');
+            }
         });
 
-        // --- Active Nav Link Scrolling ---
-        const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const observer = new IntersectionObserver((entries) => {
+        // --- Active Nav Link on Scroll (Scrollspy) ---
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll("nav a.nav-link");
+        const mainContent = document.querySelector("#main-content");
+
+        const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     navLinks.forEach(link => {
-                        link.classList.remove('font-semibold', 'text-blue-600');
-                        link.classList.add('text-gray-700');
-                        if (link.getAttribute('href').substring(1) === entry.target.id) {
-                            link.classList.add('font-semibold', 'text-blue-600');
-                            link.classList.remove('text-gray-700');
+                        link.classList.remove("font-semibold", "text-blue-600");
+                        link.classList.add("text-gray-700", "hover:font-semibold");
+                        if (link.getAttribute("href").substring(1) === entry.target.id) {
+                            link.classList.add("font-semibold", "text-blue-600");
+                            link.classList.remove("text-gray-700");
                         }
                     });
                 }
             });
-        }, { rootMargin: "-30% 0px -70% 0px" });
+        }, {
+            root: mainContent, 
+            rootMargin: "0px 0px -75% 0px" 
+        });
 
         sections.forEach(section => {
             observer.observe(section);
         });
         
-        // --- Kinematics Simulator ---
+        // --- SIMULATOR SCRIPTS ---
+
+        // 1. 1D Kinematics Simulator
         const ivSlider = document.getElementById('initialVelocity');
-        const accelSlider = document.getElementById('acceleration');
-        const ivVal = document.getElementById('ivVal');
-        const accelVal = document.getElementById('accelVal');
-        const startKinematicsBtn = document.getElementById('startKinematics');
-        const kinTime = document.getElementById('kin-time');
-        const kinPos = document.getElementById('kin-pos');
-        const kinVel = document.getElementById('kin-vel');
-        const kinCtx = document.getElementById('kinematicsCanvas').getContext('2d');
-        let kinAnim;
+        if (ivSlider) {
+            const accelSlider = document.getElementById('acceleration');
+            const ivVal = document.getElementById('ivVal');
+            const accelVal = document.getElementById('accelVal');
+            const startKinematicsBtn = document.getElementById('startKinematics');
+            const kinTime = document.getElementById('kin-time');
+            const kinPos = document.getElementById('kin-pos');
+            const kinVel = document.getElementById('kin-vel');
+            const kinCtx = document.getElementById('kinematicsCanvas').getContext('2d');
+            let kinAnim;
 
-        ivSlider.oninput = () => ivVal.textContent = ivSlider.value;
-        accelSlider.oninput = () => accelVal.textContent = accelSlider.value;
+            ivSlider.oninput = () => ivVal.textContent = ivSlider.value;
+            accelSlider.oninput = () => accelVal.textContent = accelSlider.value;
 
-        startKinematicsBtn.addEventListener('click', () => {
-            if (kinAnim) cancelAnimationFrame(kinAnim);
-            let t = 0;
-            const vi = parseFloat(ivSlider.value);
-            const a = parseFloat(accelSlider.value);
-            const startTime = Date.now();
-            
-            function animate() {
-                const elapsed = (Date.now() - startTime) / 1000;
-                t = Math.min(elapsed, 5); // run for 5 seconds
-
-                const pos = vi * t + 0.5 * a * t * t;
-                const vel = vi + a * t;
-
-                kinTime.textContent = t.toFixed(2);
-                kinPos.textContent = pos.toFixed(2);
-                kinVel.textContent = vel.toFixed(2);
+            startKinematicsBtn.addEventListener('click', () => {
+                if (kinAnim) cancelAnimationFrame(kinAnim);
+                const vi = parseFloat(ivSlider.value);
+                const a = parseFloat(accelSlider.value);
+                let startTime = performance.now();
                 
-                kinCtx.clearRect(0, 0, kinCtx.canvas.width, kinCtx.canvas.height);
-                kinCtx.fillStyle = '#3b82f6';
-                const canvasX = kinCtx.canvas.width / 2 + pos;
-                const canvasY = kinCtx.canvas.height / 2;
-                kinCtx.beginPath();
-                kinCtx.arc(canvasX, canvasY, 10, 0, Math.PI * 2);
-                kinCtx.fill();
+                function animate(currentTime) {
+                    let t = (currentTime - startTime) / 1000;
+                    t = Math.min(t, 5);
 
-                if (t < 5) {
-                    kinAnim = requestAnimationFrame(animate);
-                }
-            }
-            animate();
-        });
+                    const pos = vi * t + 0.5 * a * t * t;
+                    const vel = vi + a * t;
 
-        // --- Incline Plane Simulator ---
-        const blockMassSlider = document.getElementById('blockMass');
-        const inclineAngleSlider = document.getElementById('inclineAngle');
-        const muStaticSlider = document.getElementById('muStatic');
-        const muKineticSlider = document.getElementById('muKinetic');
-        const inclineCtx = document.getElementById('inclineCanvas').getContext('2d');
-        const forceReadout = document.getElementById('force-readout');
+                    kinTime.textContent = t.toFixed(2);
+                    kinPos.textContent = pos.toFixed(2);
+                    kinVel.textContent = vel.toFixed(2);
+                    
+                    kinCtx.clearRect(0, 0, kinCtx.canvas.width, kinCtx.canvas.height);
+                    kinCtx.fillStyle = '#3b82f6';
+                    const canvasX = kinCtx.canvas.width / 2 + pos * 2;
+                    const canvasY = kinCtx.canvas.height / 2;
+                    kinCtx.beginPath();
+                    kinCtx.arc(canvasX, canvasY, 10, 0, Math.PI * 2);
+                    kinCtx.fill();
 
-        function drawIncline() {
-            const angle = parseFloat(inclineAngleSlider.value) * Math.PI / 180;
-            const m = parseFloat(blockMassSlider.value);
-            const mu_s = parseFloat(muStaticSlider.value);
-            const mu_k = parseFloat(muKineticSlider.value);
-            const g = 9.8;
-            
-            const w = inclineCtx.canvas.width;
-            const h = inclineCtx.canvas.height;
-            const base_y = h - 30;
-            const base_x_start = 20;
-            const base_x_end = w - 20;
-            const incline_length = base_x_end - base_x_start;
-            const incline_height = incline_length * Math.tan(angle);
-
-            inclineCtx.clearRect(0, 0, w, h);
-
-            inclineCtx.beginPath();
-            inclineCtx.moveTo(base_x_start, base_y);
-            inclineCtx.lineTo(base_x_end, base_y);
-            inclineCtx.lineTo(base_x_start, base_y - incline_height);
-            inclineCtx.closePath();
-            inclineCtx.fillStyle = '#d1d5db';
-            inclineCtx.fill();
-            inclineCtx.strokeStyle = '#6b7280';
-            inclineCtx.stroke();
-            
-            const block_w = 20;
-            const block_h = 15;
-            inclineCtx.save();
-            inclineCtx.translate(base_x_start + incline_length / 2, base_y - incline_height / 2);
-            inclineCtx.rotate(-angle);
-            inclineCtx.fillStyle = '#ef4444';
-            inclineCtx.fillRect(-block_w/2, -block_h-2, block_w, block_h);
-            inclineCtx.restore();
-
-            const Fg = m * g;
-            const F_normal = Fg * Math.cos(angle);
-            const F_parallel = Fg * Math.sin(angle);
-            const F_friction_static_max = mu_s * F_normal;
-
-            let status = "";
-            let F_friction_actual = 0;
-            let acceleration = 0;
-
-            if (F_parallel <= F_friction_static_max) {
-                status = "Static (at rest)";
-                F_friction_actual = F_parallel;
-                acceleration = 0;
-            } else {
-                status = "Sliding";
-                F_friction_actual = mu_k * F_normal;
-                acceleration = (F_parallel - F_friction_actual) / m;
-            }
-
-            forceReadout.innerHTML = `
-                <strong>Status:</strong> ${status} <br>
-                <strong>Gravity Component (parallel):</strong> ${F_parallel.toFixed(2)} N <br>
-                <strong>Normal Force:</strong> ${F_normal.toFixed(2)} N <br>
-                <strong>Friction Force:</strong> ${F_friction_actual.toFixed(2)} N <br>
-                <strong>Acceleration:</strong> ${acceleration.toFixed(2)} m/s²
-            `;
-
-            document.getElementById('massVal').textContent = blockMassSlider.value;
-            document.getElementById('angleVal').textContent = inclineAngleSlider.value;
-            document.getElementById('muSVal').textContent = muStaticSlider.value;
-            document.getElementById('muKVal').textContent = muKineticSlider.value;
-        }
-
-        [blockMassSlider, inclineAngleSlider, muStaticSlider, muKineticSlider].forEach(s => s.oninput = drawIncline);
-        drawIncline();
-
-        // --- Roller Coaster ---
-        const coasterCanvas = document.getElementById('coasterCanvas');
-        const energyCanvas = document.getElementById('energyBarChart');
-        const coasterCtx = coasterCanvas.getContext('2d');
-        const energyCtx = energyCanvas.getContext('2d');
-        const hill2Slider = document.getElementById('hill2Height');
-        const startCoasterBtn = document.getElementById('startCoaster');
-        let coasterAnim;
-
-        function drawCoasterTrack(h2_percent) {
-            const w = coasterCanvas.width;
-            const h = coasterCanvas.height;
-            const h1 = h * 0.8;
-            const h2 = h1 * (h2_percent / 100);
-
-            coasterCtx.clearRect(0,0,w,h);
-            coasterCtx.beginPath();
-            coasterCtx.moveTo(0, h - h1);
-            coasterCtx.bezierCurveTo(w*0.1, h-h1, w*0.2, h*0.9, w*0.4, h*0.9);
-            coasterCtx.bezierCurveTo(w*0.6, h*0.9, w*0.7, h-h2, w*0.8, h-h2);
-            coasterCtx.lineTo(w, h-h2);
-            coasterCtx.lineWidth = 4;
-            coasterCtx.strokeStyle = '#4b5563';
-            coasterCtx.stroke();
-        }
-
-        hill2Slider.oninput = () => {
-             document.getElementById('hill2HeightVal').textContent = hill2Slider.value;
-             drawCoasterTrack(hill2Slider.value);
-        }
-        drawCoasterTrack(hill2Slider.value);
-
-        startCoasterBtn.addEventListener('click', () => {
-            if (coasterAnim) cancelAnimationFrame(coasterAnim);
-            
-            const g = 9.8;
-            const m = 1;
-            const w = coasterCanvas.width;
-            const h = coasterCanvas.height;
-            const h1 = h * 0.8;
-            const h2 = h1 * (hill2Slider.value / 100);
-            const totalEnergy = m * g * (h - (h-h1)); // E = mgh
-
-            let x = 0;
-            let y_pos = h - h1;
-            
-            function animateCoaster() {
-                x += 1; 
-                
-                // Simplified track path
-                if (x < w * 0.4) {
-                    y_pos = (h - h1) + (h*0.9 - (h-h1)) * (x/(w*0.4));
-                } else if (x < w * 0.8) {
-                    y_pos = (h*0.9) + ((h - h2) - h*0.9) * ((x-w*0.4)/(w*0.4));
-                } else {
-                     y_pos = h - h2;
-                }
-                
-                drawCoasterTrack(hill2Slider.value);
-                coasterCtx.fillStyle = '#db2777';
-                coasterCtx.fillRect(x - 5, y_pos - 10, 10, 10);
-
-                const currentHeight = h - y_pos;
-                const U = m * g * currentHeight;
-                const K = totalEnergy - U;
-
-                energyCtx.clearRect(0,0, energyCanvas.width, energyCanvas.height);
-                const maxBarHeight = energyCanvas.height - 30;
-                
-                const U_height = Math.max(0, (U / totalEnergy) * maxBarHeight);
-                const K_height = Math.max(0, (K / totalEnergy) * maxBarHeight);
-
-                energyCtx.fillStyle = 'rgba(59, 130, 246, 0.8)';
-                energyCtx.fillRect(40, maxBarHeight - U_height + 20, 50, U_height);
-                energyCtx.fillText('U (Pot)', 45, 15);
-
-                energyCtx.fillStyle = 'rgba(239, 68, 68, 0.8)';
-                energyCtx.fillRect(110, maxBarHeight - K_height + 20, 50, K_height);
-                energyCtx.fillText('K (Kin)', 115, 15);
-
-                if (K < -0.01 || x > w) { 
-                    cancelAnimationFrame(coasterAnim);
-                    if (K < -0.01) {
-                        coasterCtx.fillStyle = "red";
-                        coasterCtx.font = "bold 16px sans-serif";
-                        coasterCtx.fillText("Didn't make it!", x, y_pos - 20);
+                    if (t < 5) {
+                        kinAnim = requestAnimationFrame(animate);
                     }
-                    return;
                 }
-                coasterAnim = requestAnimationFrame(animateCoaster);
-            }
-            animateCoaster();
-        });
-        
-        // --- Collision Lab ---
-        const collisionCanvas = document.getElementById('collisionCanvas');
-        const colCtx = collisionCanvas.getContext('2d');
-        const sliders = { m1: document.getElementById('m1'), v1: document.getElementById('v1'), m2: document.getElementById('m2'), v2: document.getElementById('v2') };
-        const readouts = { m1: document.getElementById('m1Val'), v1: document.getElementById('v1Val'), m2: document.getElementById('m2Val'), v2: document.getElementById('v2Val') };
-        const startCollisionBtn = document.getElementById('startCollision');
-        const resetCollisionBtn = document.getElementById('resetCollision');
-        const stickCheck = document.getElementById('stickTogether');
-        const momentumReadout = document.getElementById('momentumReadout');
-        let colAnim;
+                kinAnim = requestAnimationFrame(animate);
+            });
+        }
 
-        Object.keys(sliders).forEach(key => {
-            sliders[key].oninput = () => {
-                readouts[key].textContent = sliders[key].value;
-                drawInitialCollisionState();
+        // 2. Projectile Motion Simulator
+        const launchBtn = document.getElementById('launchProjectile');
+        if (launchBtn) {
+            const projSpeedSlider = document.getElementById('projSpeed');
+            const projAngleSlider = document.getElementById('projAngle');
+            const projCanvas = document.getElementById('projectileCanvas');
+            const projCtx = projCanvas.getContext('2d');
+            let projAnim;
+
+            function drawProjectile() {
+                if (projAnim) cancelAnimationFrame(projAnim);
+                const speed = parseFloat(projSpeedSlider.value);
+                const angleRad = parseFloat(projAngleSlider.value) * Math.PI / 180;
+                const g = 9.8;
+                
+                let vx = speed * Math.cos(angleRad);
+                let vy = speed * Math.sin(angleRad);
+                
+                const w = projCanvas.width, h = projCanvas.height;
+                const scale = 3; 
+
+                projCtx.clearRect(0, 0, w, h);
+                let path = [];
+
+                let startTime = performance.now();
+                function animate(time) {
+                    let t = (time - startTime) / 1000; 
+                    let x_pos = vx * t;
+                    let y_pos = vy * t - 0.5 * g * t * t;
+                    
+                    let canvasX = x_pos * scale;
+                    let canvasY = h - y_pos * scale;
+                    if(path.length === 0) path.push({x:0, y:h});
+                    path.push({x: canvasX, y: canvasY});
+
+                    projCtx.clearRect(0,0,w,h);
+                    projCtx.strokeStyle = "rgba(0,0,0,0.3)";
+                    projCtx.beginPath();
+                    projCtx.moveTo(path[0].x, path[0].y);
+                    path.forEach(p => projCtx.lineTo(p.x, p.y));
+                    projCtx.stroke();
+                    
+                    projCtx.beginPath();
+                    projCtx.arc(canvasX, canvasY, 5, 0, 2 * Math.PI);
+                    projCtx.fillStyle = '#db2777';
+                    projCtx.fill();
+
+                    if (y_pos >= 0) {
+                        projAnim = requestAnimationFrame(animate);
+                    }
+                }
+                projAnim = requestAnimationFrame(animate);
+            }
+            launchBtn.addEventListener('click', drawProjectile);
+            projSpeedSlider.oninput = () => document.getElementById('speedVal').textContent = projSpeedSlider.value;
+            projAngleSlider.oninput = () => document.getElementById('angleValP').textContent = projAngleSlider.value;
+        }
+
+        // 3. Incline Plane Simulator
+        const blockMassSlider = document.getElementById('blockMass');
+        if (blockMassSlider) {
+            const inclineAngleSlider = document.getElementById('inclineAngle');
+            const muKineticSlider = document.getElementById('muKinetic');
+            const inclineCanvas = document.getElementById('inclineCanvas');
+            const inclineCtx = inclineCanvas.getContext('2d');
+            const forceReadout = document.getElementById('force-readout');
+
+            function drawIncline() {
+                const angle = parseFloat(inclineAngleSlider.value) * Math.PI / 180;
+                const m = parseFloat(blockMassSlider.value);
+                const mu_k = parseFloat(muKineticSlider.value);
+                const g = 9.8;
+                const w = inclineCtx.canvas.width, h = inclineCtx.canvas.height;
+                const base_y = h - 30, base_x_start = 20, base_x_end = w - 20;
+                const incline_length = base_x_end - base_x_start;
+                const incline_height = incline_length * Math.tan(angle);
+
+                inclineCtx.clearRect(0, 0, w, h);
+                inclineCtx.beginPath();
+                inclineCtx.moveTo(base_x_start, base_y);
+                inclineCtx.lineTo(base_x_end, base_y);
+                inclineCtx.lineTo(base_x_start, base_y - incline_height);
+                inclineCtx.closePath();
+                inclineCtx.fillStyle = '#d1d5db'; inclineCtx.fill();
+
+                const block_w = 20, block_h = 15;
+                inclineCtx.save();
+                inclineCtx.translate(base_x_start + incline_length / 2, base_y - incline_height / 2);
+                inclineCtx.rotate(-angle);
+                inclineCtx.fillStyle = '#ef4444';
+                inclineCtx.fillRect(-block_w/2, -block_h-2, block_w, block_h);
+                inclineCtx.restore();
+
+                const F_normal = m * g * Math.cos(angle);
+                const F_parallel = m * g * Math.sin(angle);
+                const F_friction = mu_k * F_normal;
+                const F_net = F_parallel - F_friction;
+                const acceleration = (F_net > 0) ? F_net / m : 0;
+                
+                forceReadout.innerHTML = `<strong>Net Force:</strong> ${F_net.toFixed(1)} N<br><strong>Acceleration:</strong> ${acceleration.toFixed(2)} m/s²`;
+                document.getElementById('massVal').textContent = blockMassSlider.value;
+                document.getElementById('angleValI').textContent = inclineAngleSlider.value;
+                document.getElementById('muKVal').textContent = muKineticSlider.value;
+            }
+            [blockMassSlider, inclineAngleSlider, muKineticSlider].forEach(s => s.addEventListener('input', drawIncline));
+            drawIncline();
+        }
+
+        // 4. Roller Coaster Simulator
+        const startCoasterBtn = document.getElementById('startCoaster');
+        if(startCoasterBtn){
+            const coasterCanvas = document.getElementById('coasterCanvas');
+            const energyCanvas = document.getElementById('energyBarChart');
+            const hill2Slider = document.getElementById('hill2Height');
+            const coasterCtx = coasterCanvas.getContext('2d');
+            const energyCtx = energyCanvas.getContext('2d');
+            let coasterAnim;
+
+            function drawCoasterTrack(h2_percent) {
+                 const w = coasterCanvas.width, h = coasterCanvas.height;
+                 const h1 = h * 0.8, h2 = h1 * (h2_percent / 100);
+                 coasterCtx.clearRect(0,0,w,h);
+                 coasterCtx.beginPath();
+                 coasterCtx.moveTo(0, h - h1);
+                 coasterCtx.bezierCurveTo(w*0.1, h-h1, w*0.2, h*0.9, w*0.4, h*0.9);
+                 coasterCtx.bezierCurveTo(w*0.6, h*0.9, w*0.7, h-h2, w*0.8, h-h2);
+                 coasterCtx.lineTo(w, h-h2);
+                 coasterCtx.lineWidth = 4; coasterCtx.strokeStyle = '#4b5563';
+                 coasterCtx.stroke();
+            }
+            hill2Slider.oninput = () => {
+                 document.getElementById('hill2HeightVal').textContent = hill2Slider.value;
+                 drawCoasterTrack(hill2Slider.value);
+            }
+            drawCoasterTrack(hill2Slider.value);
+
+            startCoasterBtn.onclick = () => {
+                if(coasterAnim) cancelAnimationFrame(coasterAnim);
+                const g = 9.8, m = 1;
+                const w = coasterCanvas.width, h = coasterCanvas.height;
+                const h1 = h * 0.8;
+                const totalEnergy = m * g * h1;
+                let x = 0;
+
+                function animateCoaster() {
+                    x += 1;
+                    let p = x / w;
+                    let y_pos;
+                    if(p < 0.4) {
+                        let t = p/0.4;
+                        y_pos = (1-t)*(1-t)*(h-h1) + 2*(1-t)*t*(h*0.95) + t*t*(h*0.9);
+                    } else if (p < 0.8) {
+                        let t = (p - 0.4)/0.4;
+                        y_pos = (1-t)*(1-t)*(h*0.9) + 2*(1-t)*t*(h*0.9) + t*t*(h-h1*(hill2Slider.value/100));
+                    } else {
+                        y_pos = h-h1*(hill2Slider.value/100);
+                    }
+
+                    drawCoasterTrack(hill2Slider.value);
+                    coasterCtx.fillStyle = '#db2777';
+                    coasterCtx.fillRect(x - 5, y_pos - 10, 10, 10);
+                    
+                    const currentHeight = h - y_pos;
+                    const U = m * g * currentHeight;
+                    const K = totalEnergy - U;
+
+                    energyCtx.clearRect(0,0, energyCanvas.width, energyCanvas.height);
+                    const maxBarHeight = energyCanvas.height - 30;
+                    const U_h = Math.max(0,(U/totalEnergy)*maxBarHeight);
+                    const K_h = Math.max(0,(K/totalEnergy)*maxBarHeight);
+                    
+                    energyCtx.fillStyle = 'rgba(59, 130, 246, 0.8)';
+                    energyCtx.fillRect(40, maxBarHeight - U_h + 20, 50, U_h);
+                    energyCtx.fillText('U', 60, 15);
+                    energyCtx.fillStyle = 'rgba(239, 68, 68, 0.8)';
+                    energyCtx.fillRect(110, maxBarHeight - K_h + 20, 50, K_h);
+                    energyCtx.fillText('K', 130, 15);
+
+                    if (K < -0.1 || x > w) { // Added tolerance for float precision
+                        cancelAnimationFrame(coasterAnim);
+                        return;
+                    }
+                    coasterAnim = requestAnimationFrame(animateCoaster);
+                }
+                animateCoaster();
             };
-        });
-        
-        function drawInitialCollisionState() {
-            if (colAnim) cancelAnimationFrame(colAnim);
-            colCtx.clearRect(0,0,collisionCanvas.width, collisionCanvas.height);
-            const m1 = parseFloat(sliders.m1.value);
-            const m2 = parseFloat(sliders.m2.value);
-            const r1 = 10 + m1;
-            const r2 = 10 + m2;
-
-            colCtx.fillStyle = '#3b82f6';
-            colCtx.beginPath();
-            colCtx.arc(collisionCanvas.width * 0.25, collisionCanvas.height / 2, r1, 0, Math.PI * 2);
-            colCtx.fill();
-
-            colCtx.fillStyle = '#ef4444';
-            colCtx.beginPath();
-            colCtx.arc(collisionCanvas.width * 0.75, collisionCanvas.height / 2, r2, 0, Math.PI * 2);
-            colCtx.fill();
-            updateMomentumReadout(0,0,0,0, true);
         }
 
-        function updateMomentumReadout(p_i, k_i, p_f, k_f, isInitial=false) {
-            if (isInitial) {
-                 const m1 = parseFloat(sliders.m1.value); const v1 = parseFloat(sliders.v1.value);
-                 const m2 = parseFloat(sliders.m2.value); const v2 = parseFloat(sliders.v2.value);
-                 p_i = m1*v1 + m2*v2;
-                 k_i = 0.5*m1*v1*v1 + 0.5*m2*v2*v2;
-                 momentumReadout.innerHTML = `<strong>Initial P:</strong> ${p_i.toFixed(1)} | <strong>Initial K:</strong> ${k_i.toFixed(1)} J`;
-            } else {
-                 momentumReadout.innerHTML = `<strong>Final P:</strong> ${p_f.toFixed(1)} | <strong>Final K:</strong> ${k_f.toFixed(1)} J`;
-            }
-        }
+        // 5. Collision Simulator
+        const startCollisionBtn = document.getElementById('startCollision');
+        if(startCollisionBtn){
+            const collisionCanvas = document.getElementById('collisionCanvas');
+            const colCtx = collisionCanvas.getContext('2d');
+            const sliders = { m1: document.getElementById('m1'), v1: document.getElementById('v1'), m2: document.getElementById('m2'), v2: document.getElementById('v2') };
+            const readouts = { m1: document.getElementById('m1Val'), v1: document.getElementById('v1Val'), m2: document.getElementById('m2Val'), v2: document.getElementById('v2Val') };
+            const stickCheck = document.getElementById('stickTogether');
+            const momentumReadout = document.getElementById('momentumReadout');
+            let colAnim;
 
-        resetCollisionBtn.onclick = drawInitialCollisionState;
-        
-        startCollisionBtn.addEventListener('click', () => {
-            if (colAnim) cancelAnimationFrame(colAnim);
-
-            const m1 = parseFloat(sliders.m1.value), v1 = parseFloat(sliders.v1.value);
-            const m2 = parseFloat(sliders.m2.value), v2 = parseFloat(sliders.v2.value);
-            const r1 = 10 + m1, r2 = 10 + m2;
-            let x1 = collisionCanvas.width * 0.25, x2 = collisionCanvas.width * 0.75;
-            const p_i = m1*v1 + m2*v2, k_i = 0.5*m1*v1*v1 + 0.5*m2*v2*v2;
-            updateMomentumReadout(p_i, k_i, 0, 0, true);
-            
-            let v1_f, v2_f;
-            if (stickCheck.checked) { v1_f = v2_f = (m1 * v1 + m2 * v2) / (m1 + m2); } 
-            else { v1_f = ((m1 - m2) / (m1 + m2)) * v1 + ((2 * m2) / (m1 + m2)) * v2; v2_f = ((2 * m1) / (m1 + m2)) * v1 + ((m2 - m1) / (m1 + m2)) * v2; }
-            const p_f = m1*v1_f + m2*v2_f, k_f = 0.5*m1*v1_f*v1_f + 0.5*m2*v2_f*v2_f;
-
-            let hasCollided = false;
-
-            function animateCollision() {
+            function drawInitialCollisionState() {
+                if(colAnim) cancelAnimationFrame(colAnim);
                 colCtx.clearRect(0,0,collisionCanvas.width, collisionCanvas.height);
-                if (!hasCollided) { x1 += v1 * 0.2; x2 += v2 * 0.2; } 
-                else { x1 += v1_f * 0.2; x2 += v2_f * 0.2; }
-
-                if (Math.abs(x1 - x2) < r1 + r2 && !hasCollided) { hasCollided = true; updateMomentumReadout(p_i, k_i, p_f, k_f, false); }
-
-                colCtx.fillStyle = '#3b82f6'; colCtx.beginPath(); colCtx.arc(x1, collisionCanvas.height / 2, r1, 0, Math.PI * 2); colCtx.fill();
-                colCtx.fillStyle = '#ef4444'; colCtx.beginPath(); colCtx.arc(x2, collisionCanvas.height / 2, r2, 0, Math.PI * 2); colCtx.fill();
-                if (x1 > -r1 && x1 < collisionCanvas.width + r1) { colAnim = requestAnimationFrame(animateCollision); }
+                const m1 = parseFloat(sliders.m1.value); const m2 = parseFloat(sliders.m2.value);
+                const r1 = 10 + m1, r2 = 10 + m2;
+                colCtx.fillStyle = '#3b82f6'; colCtx.beginPath(); colCtx.arc(collisionCanvas.width*0.25, collisionCanvas.height/2, r1, 0, 2*Math.PI); colCtx.fill();
+                colCtx.fillStyle = '#ef4444'; colCtx.beginPath(); colCtx.arc(collisionCanvas.width*0.75, collisionCanvas.height/2, r2, 0, 2*Math.PI); colCtx.fill();
+                const v1=parseFloat(sliders.v1.value), v2=parseFloat(sliders.v2.value);
+                const p_i = m1*v1 + m2*v2; const k_i = 0.5*m1*v1*v1 + 0.5*m2*v2*v2;
+                momentumReadout.innerHTML = `Pᵢ: ${p_i.toFixed(1)} | Kᵢ: ${k_i.toFixed(1)} J`;
             }
-            animateCollision();
-        });
-        drawInitialCollisionState();
+            Object.keys(sliders).forEach(key => sliders[key].oninput = () => { readouts[key].textContent = sliders[key].value; drawInitialCollisionState(); });
+            stickCheck.onchange = drawInitialCollisionState;
+            startCollisionBtn.onclick = () => {
+                if(colAnim) cancelAnimationFrame(colAnim);
+                const m1 = parseFloat(sliders.m1.value), v1 = parseFloat(sliders.v1.value);
+                const m2 = parseFloat(sliders.m2.value), v2 = parseFloat(sliders.v2.value);
+                const r1 = 10 + m1, r2 = 10 + m2;
+                let x1 = collisionCanvas.width * 0.25, x2 = collisionCanvas.width * 0.75;
+                let v1_f, v2_f;
+                if (stickCheck.checked) { v1_f = v2_f = (m1*v1 + m2*v2) / (m1 + m2); } 
+                else { v1_f = ((m1-m2)*v1 + 2*m2*v2)/(m1+m2); v2_f = (2*m1*v1 + (m2-m1)*v2)/(m1+m2); }
+                let hasCollided = false;
 
-        // --- Rotation Simulator ---
-        const rotationCanvas = document.getElementById('rotationCanvas');
-        const rotCtx = rotationCanvas.getContext('2d');
-        const torqueSlider = document.getElementById('torque'), inertiaSlider = document.getElementById('inertia');
-        const applyTorqueBtn = document.getElementById('applyTorque'), resetRotationBtn = document.getElementById('resetRotation');
-        const rotationReadout = document.getElementById('rotationReadout');
-        let rotAnim, angle = 0, omega = 0;
-
-        function drawDisk() {
-            const w = rotationCanvas.width, h = rotationCanvas.height;
-            rotCtx.clearRect(0,0,w,h);
-            rotCtx.save(); rotCtx.translate(w/2, h/2); rotCtx.rotate(angle);
-            rotCtx.beginPath(); rotCtx.arc(0,0, w/2 - 10, 0, 2*Math.PI); rotCtx.fillStyle = '#84cc16'; rotCtx.fill();
-            rotCtx.beginPath(); rotCtx.moveTo(0,0); rotCtx.lineTo(w/2 - 10, 0); rotCtx.strokeStyle = 'black'; rotCtx.lineWidth = 3; rotCtx.stroke();
-            rotCtx.restore();
-            document.getElementById('torqueVal').textContent = torqueSlider.value; document.getElementById('inertiaVal').textContent = inertiaSlider.value;
-            rotationReadout.innerHTML = `ω: ${omega.toFixed(2)} rad/s | θ: ${(angle % (2*Math.PI)).toFixed(2)} rad`;
-        }
-        resetRotationBtn.addEventListener('click', () => { if(rotAnim) cancelAnimationFrame(rotAnim); angle = 0; omega = 0; drawDisk(); });
-        applyTorqueBtn.addEventListener('click', () => {
-            if(rotAnim) cancelAnimationFrame(rotAnim);
-            const torque = parseFloat(torqueSlider.value), inertia = parseFloat(inertiaSlider.value);
-            const alpha = torque / inertia;
-            let lastTime = performance.now();
-            function animateRotation(time) {
-                const dt = (time - lastTime) / 1000;
-                omega += alpha * dt; angle += omega * dt; lastTime = time;
-                drawDisk();
-                rotAnim = requestAnimationFrame(animateRotation);
-            }
-            rotAnim = requestAnimationFrame(animateRotation);
-        });
-        drawDisk();
-
-        // --- SHM Lab ---
-        const springCanvas = document.getElementById('springCanvas'), spCtx = springCanvas.getContext('2d');
-        const pendulumCanvas = document.getElementById('pendulumCanvas'), penCtx = pendulumCanvas.getContext('2d');
-        const shmElements = {
-            springMass: { slider: document.getElementById('springMass'), val: document.getElementById('springMassVal') },
-            springK: { slider: document.getElementById('springK'), val: document.getElementById('kVal') },
-            pendulumL: { slider: document.getElementById('pendulumL'), val: document.getElementById('lengthVal') },
-            pendulumG: { slider: document.getElementById('pendulumG'), val: document.getElementById('gravityVal') },
-        };
-        const shmState = { spring: { A: 60 }, pendulum: { A: Math.PI / 4 } };
-        
-        function updateSHM() {
-            Object.keys(shmElements).forEach(key => shmElements[key].val.textContent = shmElements[key].slider.value);
-            const m = parseFloat(shmElements.springMass.slider.value), k = parseFloat(shmElements.springK.slider.value);
-            document.getElementById('springPeriod').textContent = (2 * Math.PI * Math.sqrt(m/k)).toFixed(2);
-            const L = parseFloat(shmElements.pendulumL.slider.value), g = parseFloat(shmElements.pendulumG.slider.value);
-            document.getElementById('pendulumPeriod').textContent = (2 * Math.PI * Math.sqrt(L/g)).toFixed(2);
+                function animate() {
+                    colCtx.clearRect(0,0,collisionCanvas.width, collisionCanvas.height);
+                    if (!hasCollided) { x1 += v1*0.2; x2 += v2*0.2; } else { x1 += v1_f*0.2; x2 += v2_f*0.2; }
+                    if (Math.abs(x1-x2) < r1+r2 && !hasCollided) { hasCollided = true; }
+                    colCtx.fillStyle = '#3b82f6'; colCtx.beginPath(); colCtx.arc(x1, collisionCanvas.height/2, r1, 0, 2*Math.PI); colCtx.fill();
+                    colCtx.fillStyle = '#ef4444'; colCtx.beginPath(); colCtx.arc(x2, collisionCanvas.height/2, r2, 0, 2*Math.PI); colCtx.fill();
+                    if(x1 > -r1 && x1 < collisionCanvas.width+r1) colAnim = requestAnimationFrame(animate);
+                }
+                animate();
+            };
+            drawInitialCollisionState();
         }
 
-        function animateSHM(time) {
-            const m = parseFloat(shmElements.springMass.slider.value), k = parseFloat(shmElements.springK.slider.value);
-            const L = parseFloat(shmElements.pendulumL.slider.value), g = parseFloat(shmElements.pendulumG.slider.value);
-            const omega_spring = Math.sqrt(k/m), omega_pendulum = Math.sqrt(g/L);
-
-            spCtx.clearRect(0,0,springCanvas.width, springCanvas.height);
-            const y_pos = 100 + shmState.spring.A * Math.cos(omega_spring * time/1000);
-            spCtx.fillStyle = '#10b981'; spCtx.fillRect(springCanvas.width/2 - 15, y_pos, 30, 30);
-            spCtx.strokeStyle = '#6b7280'; spCtx.lineWidth = 2; spCtx.beginPath(); spCtx.moveTo(springCanvas.width/2, 20); spCtx.lineTo(springCanvas.width/2, y_pos); spCtx.stroke();
+        // 6. Rotation Simulator
+        const applyTorqueBtn = document.getElementById('applyTorque');
+        if(applyTorqueBtn) {
+            const rotationCanvas = document.getElementById('rotationCanvas');
+            const rotCtx = rotationCanvas.getContext('2d');
+            const torqueSlider = document.getElementById('torque'), inertiaSlider = document.getElementById('inertia');
+            let rotAnim, angle=0, omega=0;
             
-            penCtx.clearRect(0,0,pendulumCanvas.width, pendulumCanvas.height);
-            const pen_angle = shmState.pendulum.A * Math.cos(omega_pendulum * time/1000);
-            const pivot_x = pendulumCanvas.width / 2, pivot_y = 30;
-            const pen_l_pixels = L * 50;
-            const bob_x = pivot_x + pen_l_pixels * Math.sin(pen_angle), bob_y = pivot_y + pen_l_pixels * Math.cos(pen_angle);
-            penCtx.strokeStyle = '#6b7280'; penCtx.lineWidth = 2; penCtx.beginPath(); penCtx.moveTo(pivot_x, pivot_y); penCtx.lineTo(bob_x, bob_y); penCtx.stroke();
-            penCtx.fillStyle = '#f97316'; penCtx.beginPath(); penCtx.arc(bob_x, bob_y, 15, 0, 2*Math.PI); penCtx.fill();
-
-            requestAnimationFrame(animateSHM);
+            function drawDisk(){
+                const w = rotationCanvas.width, h = rotationCanvas.height;
+                rotCtx.clearRect(0,0,w,h);
+                rotCtx.save(); rotCtx.translate(w/2, h/2); rotCtx.rotate(angle);
+                rotCtx.beginPath(); rotCtx.arc(0,0, w/2-10, 0, 2*Math.PI); rotCtx.fillStyle = '#84cc16'; rotCtx.fill();
+                rotCtx.beginPath(); rotCtx.moveTo(0,0); rotCtx.lineTo(w/2-10, 0); rotCtx.stroke();
+                rotCtx.restore();
+                document.getElementById('torqueVal').textContent = torqueSlider.value; document.getElementById('inertiaVal').textContent = inertiaSlider.value;
+                document.getElementById('rotationReadout').innerHTML = `ω: ${omega.toFixed(2)} rad/s`;
+            }
+            applyTorqueBtn.onclick = () => {
+                if(rotAnim) cancelAnimationFrame(rotAnim);
+                const torque = parseFloat(torqueSlider.value), inertia = parseFloat(inertiaSlider.value);
+                const alpha = torque / inertia;
+                let lastTime = performance.now();
+                function animate(time) {
+                    if (lastTime > 0) { const dt = (time-lastTime)/1000; omega += alpha * dt; angle += omega * dt; }
+                    lastTime = time;
+                    drawDisk();
+                    rotAnim = requestAnimationFrame(animate);
+                }
+                rotAnim = requestAnimationFrame(animate);
+            };
+            drawDisk();
         }
-        Object.values(shmElements).forEach(el => el.slider.oninput = updateSHM);
-        updateSHM();
-        requestAnimationFrame(animateSHM);
+
     });
     </script>
 </body>
